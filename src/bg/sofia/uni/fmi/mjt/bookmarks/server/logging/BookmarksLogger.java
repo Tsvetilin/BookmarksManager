@@ -4,9 +4,9 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers.ConsoleProvider;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers.DefaultConsoleProvider;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers.DefaultFileProvider;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers.FileProvider;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.DateTimeProvider;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.DefaultDateTimeProvider;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.datetime.DateTimeProvider;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.datetime.DefaultDateTimeProvider;
 
 public class BookmarksLogger implements Logger {
 
@@ -61,6 +61,7 @@ public class BookmarksLogger implements Logger {
 
     @Override
     public void log(Severity severity, String message) {
+        // TODO: get timestamp to be same everywhere or generate full message here
         if (fileSeverity.getValue() >= severity.getValue()) {
             logFile(severity, message);
         }

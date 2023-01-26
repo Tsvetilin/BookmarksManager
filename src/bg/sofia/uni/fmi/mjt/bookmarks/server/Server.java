@@ -23,8 +23,12 @@ public class Server {
     private final Logger logger;
     private final ByteBuffer messageBuffer;
 
+    private CommandExecutor commandExecutor;
+
+
     private boolean isStarted = true;
 
+    // TODO: add builder for configuration
     public Server(int port, Logger logger) {
         this.port = port;
         this.logger = logger;
@@ -91,7 +95,7 @@ public class Server {
         buffer.flip();
         String message = new String(buffer.array(), 0, buffer.limit()).trim();
         logger.logInfo("Message [" + message + "] received from client " + socketChannel.getRemoteAddress());
-        String response = CommandExecutor.execute(message);
+        String response = commandExecutor.execute(message);
         logger.logInfo("Sending response to client: " + response);
         response += System.lineSeparator();
         buffer.clear();

@@ -2,16 +2,29 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.persistence;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class FileRepository<K, T extends Entity<K>> implements Repository<K, T> {
 
     private final FileRepositoryOptions options;
-
+    private final Map<K, T> table;
 
     public FileRepository(FileRepositoryOptions options) {
+        this.options = Nullable.orDefault(options, FileRepositoryOptions.getDefault());
+        this.table = new HashMap<>();
+        loadData();
+    }
 
-        this.options = Nullable.orDefault(options,FileRepositoryOptions.getDefault());
+    private void loadData() {
+        table.clear();
+        var json = new BufferedReader(options.reader()).lines().collect(Collectors.joining(System.lineSeparator()));
+        table.putAll(options.serializer().deserialize(json));
     }
 
     @Override
@@ -20,8 +33,8 @@ public class FileRepository<K, T extends Entity<K>> implements Repository<K, T> 
     }
 
     @Override
-    public T get(K key) {
-        return null;
+    public Optional<T> get(K key) {
+        return Optional.empty();
     }
 
     @Override

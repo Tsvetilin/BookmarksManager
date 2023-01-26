@@ -1,12 +1,13 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.persistence;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface Repository<K, T extends Entity<K>> {
 
     void add(T object);
 
-    T get(K key);
+    Optional<T> get(K key);
 
     void remove(K key);
 
