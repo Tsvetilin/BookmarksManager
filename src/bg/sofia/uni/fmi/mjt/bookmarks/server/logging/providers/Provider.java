@@ -1,4 +1,5 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers;
 
-public interface FileProvider extends Provider {
+public interface Provider {
+    void write(String str);
 }

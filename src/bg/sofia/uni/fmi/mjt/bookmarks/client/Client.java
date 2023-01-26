@@ -1,5 +1,8 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.client;
 
+import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Request;
+import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,7 +16,7 @@ public class Client {
 
     private static final String DISCONNECT_COMMAND = "disconnect";
     private static final String STATUS_COMMAND = "status";
-    private static final String HELP_COMMAND = "help";
+    private static final String IMPORT_CHROME_COMMAND = "import-from-chrome";
     private static final String COMMAND_PROMPT = "=> ";
 
     private static final String SERVER_HOST = "localhost";
@@ -43,7 +46,7 @@ public class Client {
 
             socketChannel.connect(new InetSocketAddress(host, port));
 
-            System.out.println("Connected to the server.");
+            System.out.println("[ Connected ] Connected to the server.");
 
             new Thread(new ClientRunnable(reader)).start();
 
@@ -55,23 +58,26 @@ public class Client {
                     break;
                 }
 
-                if (HELP_COMMAND.equalsIgnoreCase(command)) {
-
-                    continue;
-                }
-
                 if (STATUS_COMMAND.equalsIgnoreCase(command)) {
+                    System.out.println("[ Connected ]");
                     continue;
                 }
 
-                writer.println(command);
+                if (IMPORT_CHROME_COMMAND.equalsIgnoreCase(command)) {
+                    command += importChrome();
+                }
 
+                writer.println(new Request(command).getDataMessage());
             }
 
             System.out.println("[ Disconnected ]");
         } catch (IOException e) {
-            System.err.println("An error occurred in the client I/O: " + e.getMessage());
-            System.err.println(e);
+            System.err.println(
+                "[ Error ] An error occurred in the communication with the server. Connection is closed.");
         }
+    }
+
+    private String importChrome() {
+        return " ";
     }
 }

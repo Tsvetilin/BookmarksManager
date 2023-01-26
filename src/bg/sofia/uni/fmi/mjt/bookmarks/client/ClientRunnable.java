@@ -14,17 +14,16 @@ public class ClientRunnable implements Runnable {
     @Override
     public void run() {
         String line;
-        while (true) {
-            try {
+        try {
+            while (true) {
                 if ((line = reader.readLine()) != null) {
                     System.out.println(line);
                 }
-            } catch (IOException e) {
-                System.err.println("Connection is closed, stop waiting for server messages due to: " + e.getMessage());
-                System.err.println(e);
-                break;
             }
+        } catch (IOException e) {
+            System.err.println("[ Disconnected ] Connection is closed, communication terminated.");
         }
+
     }
 
 }

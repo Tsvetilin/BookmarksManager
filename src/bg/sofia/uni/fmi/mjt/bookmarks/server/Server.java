@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server;
 
+import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandExecutor;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.Logger;
 
@@ -64,7 +65,8 @@ public class Server {
                         messageBuffer.clear();
                         int r = socketChannel.read(messageBuffer);
                         if (r <= 0) {
-                            logger.logInfo("Nothing to read, closing channel -> " + socketChannel.getRemoteAddress());
+                            logger.logInfo(
+                                "Nothing to read, closing channel for client " + socketChannel.getRemoteAddress());
                             socketChannel.close();
                             continue;
                         }
@@ -91,17 +93,16 @@ public class Server {
 
     private void handleKeyIsReadable(SelectionKey key, ByteBuffer buffer) throws IOException {
         SocketChannel socketChannel = (SocketChannel) key.channel();
-
         buffer.flip();
         String message = new String(buffer.array(), 0, buffer.limit()).trim();
-        logger.logInfo("Message [" + message + "] received from client " + socketChannel.getRemoteAddress());
-        String response = commandExecutor.execute(message);
-        logger.logInfo("Sending response to client: " + response);
-        response += System.lineSeparator();
+        logger.logInfo("Message received from client " + socketChannel.getRemoteAddress() + " : " + message);
+        Response response = commandExecutor.execute(message);
         buffer.clear();
-        buffer.put(response.getBytes());
+        buffer.put(response.getDataMessage().getBytes());
         buffer.flip();
         socketChannel.write(buffer);
+        logger.logInfo(
+            "Response sent to client " + socketChannel.getRemoteAddress() + " : " + response.getDataMessage());
     }
 
     private void handleKeyIsAcceptable(Selector selector, SelectionKey key) throws IOException {

@@ -5,22 +5,22 @@ import java.util.Set;
 import java.util.UUID;
 
 public class IdGenerator {
-    private static final Set<String> ids;
+    private static final Set<String> IDS;
 
     static {
-        ids = new HashSet<>();
+        IDS = new HashSet<>();
     }
 
     public static String generateId() {
         String id;
         do {
             id = UUID.randomUUID().toString();
-        } while (ids.contains(id));
+        } while (IDS.contains(id));
 
         return id;
     }
 
     public static void addUsedId(String id) {
-        ids.add(id);
+        IDS.add(id);
     }
 }

@@ -1,5 +1,7 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.command;
 
+import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
+import bg.sofia.uni.fmi.mjt.bookmarks.contracts.ResponseStatus;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.DatabaseContext;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.SessionStore;
 
@@ -19,8 +21,8 @@ public class CommandExecutor {
     }
 
 
-    public String execute(String cmd) {
+    public Response execute(String cmd) {
 
-        return "";
+        return new Response("", ResponseStatus.OK);
     }
 }
