@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandExecutor;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.Logger;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.Session;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -96,7 +97,8 @@ public class Server {
         buffer.flip();
         String message = new String(buffer.array(), 0, buffer.limit()).trim();
         logger.logInfo("Message received from client " + socketChannel.getRemoteAddress() + " : " + message);
-        Response response = commandExecutor.execute(message);
+        // TODO: handle session
+        Response response = commandExecutor.execute(message, new Session());
         buffer.clear();
         buffer.put(response.getDataMessage().getBytes());
         buffer.flip();

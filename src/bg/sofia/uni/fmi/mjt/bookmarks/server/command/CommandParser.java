@@ -1,6 +1,9 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.command;
 
+import bg.sofia.uni.fmi.mjt.bookmarks.server.command.common.UnknownCommand;
+
 import java.util.Arrays;
+import java.util.List;
 
 public class CommandParser {
 
@@ -36,6 +39,50 @@ public class CommandParser {
             case IMPORT_FROM_CHROME -> importFromChrome(args);
             case UNKNOWN -> new UnknownCommand();
         };
+    }
+
+    private static Command importFromChrome(List<String> args) {
+        return null;
+    }
+
+    private static Command cleanup(List<String> args) {
+        return null;
+    }
+
+    private static Command list(List<String> args) {
+        return null;
+    }
+
+    private static Command search(List<String> args) {
+        return null;
+    }
+
+    private static Command removeFrom(List<String> args) {
+        return null;
+    }
+
+    private static Command newGroup(List<String> args) {
+        return null;
+    }
+
+    private static Command addTo(List<String> args) {
+        return null;
+    }
+
+    private static Command login(List<String> args) {
+        return null;
+    }
+
+    private static Command logout(List<String> args) {
+        return null;
+    }
+
+    private static Command register(List<String> args) {
+        return null;
+    }
+
+    private static Command help(List<String> args) {
+        return null;
     }
 
 

@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="39a9bc9c-0414-4dc7-bc58-873737e21483" name="Changes" comment="Add contracts and bitly shortener">
-      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/DIContainer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/CommandParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/CommandType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/UnknownCommand.java" afterDir="false" />
+    <list default="true" id="39a9bc9c-0414-4dc7-bc58-873737e21483" name="Changes" comment="Add di container and work on commands">
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/AuthenticatedCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/CommandBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/account/LoginCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/account/LogoutCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/account/RegisterCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/AddToCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/CleanupCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/ImportFromChromeCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/ListCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/NewGroupCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/RemoveFromCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/SearchCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/common/HelpCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/exceptions/command/UnauthenticatedCommandException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/DIContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/DIContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/Command.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/CommandExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/CommandExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/CommandParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/CommandParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/UnknownCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/common/UnknownCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/exceptions/InvalidClientCommandException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/exceptions/command/InvalidClientCommandException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/sessions/SessionStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/sessions/SessionStore.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +35,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -57,6 +73,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.co" />
       <recent name="bg.sofia.uni.fmi.mjt.bookmarks.server.command" />
       <recent name="bg.sofia.uni.fmi.mjt.bookmarks.contracts" />
       <recent name="bg.sofia.uni.fmi.mjt.bookmarks.client" />
@@ -70,7 +87,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1674469471195</updated>
-      <workItem from="1674469474561" duration="31111000" />
+      <workItem from="1674469474561" duration="34615000" />
     </task>
     <task id="LOCAL-00001" summary="Add main layout">
       <created>1674491477277</created>
@@ -107,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674766675780</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Add di container and work on commands">
+      <created>1674856720059</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1674856720059</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -153,6 +177,7 @@
     <MESSAGE value="Add repository pattern" />
     <MESSAGE value="Add sessions, work on repository pattern" />
     <MESSAGE value="Add contracts and bitly shortener" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add contracts and bitly shortener" />
+    <MESSAGE value="Add di container and work on commands" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add di container and work on commands" />
   </component>
 </project>
