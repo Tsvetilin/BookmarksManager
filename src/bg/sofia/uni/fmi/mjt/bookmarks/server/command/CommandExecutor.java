@@ -22,7 +22,6 @@ public class CommandExecutor {
 
 
     public Response execute(String cmd) {
-
-        return new Response("", ResponseStatus.OK);
+        return CommandParser.parse(cmd).execute();
     }
 }
