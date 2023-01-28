@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class FileRepository<K, T extends Entity<K>> implements Repository<K, T> {
@@ -38,6 +39,16 @@ public class FileRepository<K, T extends Entity<K>> implements Repository<K, T> 
     }
 
     @Override
+    public Optional<T> find(Predicate<T> predicate) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean any(Predicate<T> predicate) {
+        return false;
+    }
+
+    @Override
     public void remove(K key) {
 
     }
@@ -49,7 +60,7 @@ public class FileRepository<K, T extends Entity<K>> implements Repository<K, T> 
 
     @Override
     public Collection<T> getAll() {
-        return null;
+        return table.values();
     }
 
     @Override

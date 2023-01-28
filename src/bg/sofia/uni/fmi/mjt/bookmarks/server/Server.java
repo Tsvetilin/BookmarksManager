@@ -98,7 +98,7 @@ public class Server {
         String message = new String(buffer.array(), 0, buffer.limit()).trim();
         logger.logInfo("Message received from client " + socketChannel.getRemoteAddress() + " : " + message);
         // TODO: handle session
-        Response response = commandExecutor.execute(message, new Session());
+        Response response = commandExecutor.execute(message, new Session(socketChannel, null));
         buffer.clear();
         buffer.put(response.getDataMessage().getBytes());
         buffer.flip();

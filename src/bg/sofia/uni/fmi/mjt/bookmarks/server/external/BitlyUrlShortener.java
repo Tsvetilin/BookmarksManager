@@ -16,8 +16,10 @@ public class BitlyUrlShortener implements UrlShortener {
     private static final String AUTH_HEADER_VALUE = "INSERT_API_KEY_HERE";
 
     private final Gson gson;
+    private final HttpClient client;
 
-    public BitlyUrlShortener() {
+    public BitlyUrlShortener(HttpClient client) {
+        this.client = client;
         this.gson = new Gson();
     }
 
@@ -26,8 +28,6 @@ public class BitlyUrlShortener implements UrlShortener {
         Objects.requireNonNull(url, "Url is null!");
 
         String body = String.format("{\"long_url\":\"%s\"}", url);
-
-        HttpClient httpClient = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(BITLY_API_URL))
@@ -38,8 +38,7 @@ public class BitlyUrlShortener implements UrlShortener {
 
         HttpResponse<String> response;
         try {
-            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("", e);
         }

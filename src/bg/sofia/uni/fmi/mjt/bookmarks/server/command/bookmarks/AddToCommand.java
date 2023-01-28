@@ -5,8 +5,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.command.AuthenticatedCommand;
 
 public class AddToCommand extends AuthenticatedCommand {
     @Override
-    public Response execute() {
-        super.execute();
+    protected Response authenticatedExecute() {
         return null;
     }
 }

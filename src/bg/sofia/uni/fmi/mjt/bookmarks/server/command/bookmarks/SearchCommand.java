@@ -4,9 +4,10 @@ import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.AuthenticatedCommand;
 
 public class SearchCommand extends AuthenticatedCommand {
+
     @Override
-    public Response execute() {
-        super.execute();
+    protected Response authenticatedExecute() {
         return null;
     }
+
 }
