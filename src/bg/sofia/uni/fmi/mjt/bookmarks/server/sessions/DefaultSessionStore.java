@@ -14,7 +14,7 @@ public class DefaultSessionStore implements SessionStore {
     }
 
     @Override
-    public void Register(Session session) {
+    public void register(Session session) {
 
     }
 

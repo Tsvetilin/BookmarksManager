@@ -1,4 +1,4 @@
-package bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.shortener;
+package bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions;
 
 public class UrlShortenerException extends Exception {
 

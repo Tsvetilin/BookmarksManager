@@ -1,6 +1,7 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.external;
 
-import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.shortener.UrlShortenerException;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.UrlShortenerException;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ public class BitlyUrlShortener implements UrlShortener {
 
     private static final String BITLY_API_URL = "https://api-ssl.bitly.com/v4/shorten";
     private static final String AUTH_HEADER_VALUE = "INSERT_API_KEY_HERE";
+    private static final String REQUEST_BODY_PATTERN = "{\"long_url\":\"%s\"}";
 
     private final Gson gson;
     private final HttpClient client;
@@ -26,9 +28,9 @@ public class BitlyUrlShortener implements UrlShortener {
 
     @Override
     public String shorten(String url) throws UrlShortenerException {
-        Objects.requireNonNull(url, "Url is null!");
+        Nullable.throwIfNull(url);
 
-        String body = String.format("{\"long_url\":\"%s\"}", url);
+        String body = String.format(REQUEST_BODY_PATTERN, url);
 
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(BITLY_API_URL))

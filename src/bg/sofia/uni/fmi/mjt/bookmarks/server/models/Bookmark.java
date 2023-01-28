@@ -51,4 +51,8 @@ public class Bookmark extends Entity<String> {
     public void setGroup(Group group) {
         this.group = group;
     }
+
+    public String listPreview() {
+        return title + " - " + url;
+    }
 }

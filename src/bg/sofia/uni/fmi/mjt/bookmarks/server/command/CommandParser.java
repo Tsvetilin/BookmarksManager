@@ -1,6 +1,7 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.command;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.common.UnknownCommand;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,14 +11,12 @@ public class CommandParser {
     private static final String PUNCTUATION_REGEX = "[\\p{Punct}\\s]+";
 
     public static Command parse(String str) {
-        if (str == null) {
-            return new UnknownCommand();
-        }
+        Nullable.throwIfNull(str);
 
         var split =
             Arrays.stream(str.trim().split(PUNCTUATION_REGEX)).filter(x -> !(x.isEmpty() || x.isBlank())).toList();
 
-        if (split.size() < 2) {
+        if (split.size() == 0) {
             return new UnknownCommand();
         }
 
@@ -36,12 +35,12 @@ public class CommandParser {
             case LIST -> list(args);
             case SEARCH -> search(args);
             case CLEANUP -> cleanup(args);
-            case IMPORT_FROM_CHROME -> importFromChrome(args);
+            case IMPORT_FROM_CHROME -> importFromChrome(str);
             case UNKNOWN -> new UnknownCommand();
         };
     }
 
-    private static Command importFromChrome(List<String> args) {
+    private static Command importFromChrome(String cmd) {
         return null;
     }
 

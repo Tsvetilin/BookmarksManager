@@ -17,7 +17,6 @@ public class CommandExecutor {
     }
 
     private CommandExecutor(SessionStore sessionStore, DatabaseContext context, Logger logger) {
-
         this.sessionStore = sessionStore;
         this.context = context;
         this.logger = logger;

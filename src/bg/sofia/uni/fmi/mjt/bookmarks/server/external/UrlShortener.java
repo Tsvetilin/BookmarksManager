@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.external;
 
-import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.shortener.UrlShortenerException;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.UrlShortenerException;
 
 public interface UrlShortener {
 

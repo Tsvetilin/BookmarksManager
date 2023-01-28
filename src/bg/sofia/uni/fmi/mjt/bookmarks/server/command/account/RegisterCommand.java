@@ -22,7 +22,7 @@ public class RegisterCommand extends CommandBase {
     public RegisterCommand(String username, String password) {
         this.username = username;
         this.password = password;
-        Nullable.throwIfAnyNull(username,password);
+        Nullable.throwIfAnyNull(username, password);
     }
 
     @Override

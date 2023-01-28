@@ -16,7 +16,6 @@ public class NewGroupCommand extends AuthenticatedCommand {
         Nullable.throwIfNull(group);
     }
 
-
     @Override
     protected Response authenticatedExecute() {
 

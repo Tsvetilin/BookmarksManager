@@ -22,7 +22,7 @@ public class LoginCommand extends CommandBase {
         this.username = username;
         this.password = password;
 
-        Nullable.throwIfAnyNull(username,password);
+        Nullable.throwIfAnyNull(username, password);
     }
 
     @Override
