@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.external;
 
+import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.shortener.UrlShortenerException;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class BitlyUrlShortener implements UrlShortener {
     }
 
     @Override
-    public String shorten(String url) {
+    public String shorten(String url) throws UrlShortenerException {
         Objects.requireNonNull(url, "Url is null!");
 
         String body = String.format("{\"long_url\":\"%s\"}", url);
@@ -40,12 +41,12 @@ public class BitlyUrlShortener implements UrlShortener {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException("", e);
+            throw new UrlShortenerException("", e);
         }
 
         if (response.statusCode() != HttpURLConnection.HTTP_CREATED &&
             response.statusCode() != HttpURLConnection.HTTP_OK) {
-            throw new RuntimeException("");
+            throw new UrlShortenerException("");
         }
 
         ShortUrlResult shorten = gson.fromJson(response.body(), ShortUrlResult.class);
