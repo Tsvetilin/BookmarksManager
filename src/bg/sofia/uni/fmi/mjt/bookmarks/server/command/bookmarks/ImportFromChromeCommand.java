@@ -38,7 +38,7 @@ public class ImportFromChromeCommand extends AuthenticatedCommand {
             } catch (InvalidBookmarkException | BookmarkValidationException e) {
                 String traceId = IdGenerator.generateId();
                 logger.logError("Server error on importing bookmarks from chrome. Trace id: " + traceId);
-                logger.logException(e,traceId);
+                logger.logException(e, traceId);
             }
         });
 

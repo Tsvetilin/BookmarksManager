@@ -6,6 +6,6 @@ public class DefaultDateTimeProvider implements DateTimeProvider {
 
     @Override
     public LocalDateTime getCurrentTime() {
-        return null;
+        return LocalDateTime.now();
     }
 }

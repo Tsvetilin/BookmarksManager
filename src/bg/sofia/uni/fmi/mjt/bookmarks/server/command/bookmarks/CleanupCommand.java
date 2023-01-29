@@ -14,15 +14,16 @@ public class CleanupCommand extends AuthenticatedCommand {
     protected Response authenticatedExecute() {
         BookmarksService service = DIContainer.request(BookmarksService.class);
         user.getBookmarks().stream().filter(x -> {
-                try {
-                    return service.validateUrl(x.getUrl());
-                } catch (BookmarkValidationException e) {
-                    String traceId = IdGenerator.generateId();
-                    logger.logError("Server error on cleaning up bookmarks. Trace id: " + traceId);
-                    logger.logException(e, IdGenerator.generateId());
-                    return false;
-                }
-            })
+            try {
+                return service.validateUrl(x.getUrl());
+            } catch (BookmarkValidationException e) {
+                String traceId = IdGenerator.generateId();
+                logger.logError("Server error on cleaning up bookmarks. Trace id: " + traceId);
+                logger.logException(e, IdGenerator.generateId());
+                return false;
+            }
+            }
+            )
             .forEach(x -> context.bookmarks().remove(x.getKey()));
 
         logger.logInfo("Bookmarks cleaned up for user " + user.getUsername());

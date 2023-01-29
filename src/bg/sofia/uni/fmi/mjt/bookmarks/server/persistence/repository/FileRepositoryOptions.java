@@ -1,28 +1,29 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository;
 
+import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.LoggerOperationException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.serialize.DefaultSerializer;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.serialize.Serializer;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class FileRepositoryOptions {
-
-    private final Reader reader;
-    private final Writer writer;
+    private final String path;
     private final Serializer serializer;
 
     public static FileRepositoryOptions getDefault() {
         return null;
     }
 
-    private FileRepositoryOptions(FileRepositoryOptionsBuilder builder) throws IOException {
-        reader = new FileReader(builder.path);
-        writer = new FileWriter(builder.path);
+    private FileRepositoryOptions(FileRepositoryOptionsBuilder builder) {
+        this.path = builder.path;
         this.serializer = Nullable.orDefault(builder.serializer, new DefaultSerializer());
     }
 
@@ -31,15 +32,36 @@ public class FileRepositoryOptions {
     }
 
     public Reader reader() {
-        return reader;
+        try {
+            ensureCreated(path);
+            return new FileReader(path);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Writer writer() {
-        return writer;
+        try {
+            ensureCreated(path);
+            return new FileWriter(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Serializer serializer() {
         return serializer;
+    }
+
+    private void ensureCreated(String path) {
+        Path dir = Path.of(path);
+        if (!Files.exists(dir)) {
+            try {
+                Files.createDirectories(dir);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     private static class FileRepositoryOptionsBuilder {
@@ -56,7 +78,7 @@ public class FileRepositoryOptions {
             return this;
         }
 
-        public FileRepositoryOptions build() throws IOException {
+        public FileRepositoryOptions build()  {
             return new FileRepositoryOptions(this);
         }
 

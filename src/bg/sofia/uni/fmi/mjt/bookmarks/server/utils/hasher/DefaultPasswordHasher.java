@@ -29,13 +29,11 @@ public class DefaultPasswordHasher implements PasswordHasher {
         if (hexSalt.length() % 2 == 1) {
             hexSalt = "0" + hexSalt;
         }
-        byte[] salt = HexFormat.of().parseHex(hexSalt);
 
+        byte[] salt = HexFormat.of().parseHex(hexSalt);
         PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, HASH_ITERATIONS, KEY_LENGTH);
         SecretKeyFactory skf = SecretKeyFactory.getInstance(ALGO_NAME);
-
         byte[] hash = skf.generateSecret(spec).getEncoded();
-
         String actual = new BigInteger(1, hash).toString(HEX);
 
         return actual.equals(expectedHash);
