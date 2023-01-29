@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CommandParser {
 
-    private static final String PUNCTUATION_REGEX = "[\\p{Punct}\\s]+";
+    private static final String PUNCTUATION_REGEX = "[\\s\\p{IsPunctuation}]+";
 
     public static Command parse(String str) {
         Nullable.throwIfNull(str);

@@ -3,6 +3,9 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.persistence;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Group;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.DatabaseContext;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.FileRepository;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.Repository;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
 public class FileDatabaseContext implements DatabaseContext {

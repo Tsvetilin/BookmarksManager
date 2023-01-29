@@ -1,4 +1,4 @@
-package bg.sofia.uni.fmi.mjt.bookmarks.server.persistence;
+package bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.serialize.DefaultSerializer;

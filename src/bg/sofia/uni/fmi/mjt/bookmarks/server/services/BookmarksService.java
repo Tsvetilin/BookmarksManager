@@ -8,7 +8,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
 
 public interface BookmarksService {
     Bookmark generateBookmark(String url, String group, boolean shortened, User user) throws InvalidBookmarkException,
-        UrlShortenerException;
+        UrlShortenerException, BookmarkValidationException;
 
     boolean validateUrl(String url) throws BookmarkValidationException;
 }

@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server;
 
+import java.security.InvalidKeyException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,12 @@ public class DIContainer {
     }
 
     public static <T> T request(Class<T> tClass) {
-        return (T) CONTAINER.get(tClass.getName());
+        var result = CONTAINER.get(tClass.getName());
+        if (result == null) {
+            throw new IllegalArgumentException("Not such service registered");
+        }
+
+        return (T) result;
     }
 
     public static <T> void register(T object) {

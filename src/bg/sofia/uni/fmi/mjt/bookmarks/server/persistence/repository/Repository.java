@@ -1,4 +1,6 @@
-package bg.sofia.uni.fmi.mjt.bookmarks.server.persistence;
+package bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository;
+
+import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.Entity;
 
 import java.util.Collection;
 import java.util.Optional;
