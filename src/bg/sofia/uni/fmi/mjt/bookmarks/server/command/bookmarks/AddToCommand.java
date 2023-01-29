@@ -4,10 +4,11 @@ import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.ResponseStatus;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.DIContainer;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.AuthenticatedCommand;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.BookmarkValidationException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.InvalidBookmarkException;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.UrlShortenerException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.BookmarksService;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
 public class AddToCommand extends AuthenticatedCommand {
@@ -40,11 +41,16 @@ public class AddToCommand extends AuthenticatedCommand {
         Bookmark bookmark;
         try {
             bookmark = DIContainer.request(BookmarksService.class).generateBookmark(url, group, isShortened, user);
+        } catch (BookmarkValidationException e) {
+            String traceId = IdGenerator.generateId();
+            logger.logError("Server error on saving bookmark. Trace id: " + traceId);
+            logger.logException(e, traceId);
+            return new Response("Invalid url provided. Trace id: " + traceId, ResponseStatus.ERROR);
         } catch (InvalidBookmarkException e) {
-            logger.logException(e);
-            return new Response("Invalid url provided.", ResponseStatus.ERROR);
-        } catch (UrlShortenerException e) {
-            return new Response("Internal server error.", ResponseStatus.ERROR);
+            String traceId = IdGenerator.generateId();
+            logger.logError("Server error on saving bookmark. Trace id: " + traceId);
+            logger.logException(e, traceId);
+            return new Response("Internal server error. Trace id: " + traceId, ResponseStatus.ERROR);
         }
 
         context.bookmarks().add(bookmark);

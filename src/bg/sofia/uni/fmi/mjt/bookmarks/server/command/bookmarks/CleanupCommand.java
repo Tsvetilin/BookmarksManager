@@ -6,6 +6,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.DIContainer;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.AuthenticatedCommand;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.BookmarkValidationException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.BookmarksService;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
 
 public class CleanupCommand extends AuthenticatedCommand {
 
@@ -16,6 +17,9 @@ public class CleanupCommand extends AuthenticatedCommand {
                 try {
                     return service.validateUrl(x.getUrl());
                 } catch (BookmarkValidationException e) {
+                    String traceId = IdGenerator.generateId();
+                    logger.logError("Server error on cleaning up bookmarks. Trace id: " + traceId);
+                    logger.logException(e, IdGenerator.generateId());
                     return false;
                 }
             })

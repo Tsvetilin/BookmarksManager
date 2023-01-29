@@ -4,8 +4,8 @@ import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.ResponseStatus;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.DIContainer;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.AuthenticatedCommand;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.BookmarkValidationException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.InvalidBookmarkException;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.UrlShortenerException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Group;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.BookmarksService;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
@@ -35,8 +35,10 @@ public class ImportFromChromeCommand extends AuthenticatedCommand {
         urls.forEach(x -> {
             try {
                 context.bookmarks().add(service.generateBookmark(x, CHROME_GROUP, false, user));
-            } catch (InvalidBookmarkException | UrlShortenerException e) {
-                logger.logException(e);
+            } catch (InvalidBookmarkException | BookmarkValidationException e) {
+                String traceId = IdGenerator.generateId();
+                logger.logError("Server error on importing bookmarks from chrome. Trace id: " + traceId);
+                logger.logException(e,traceId);
             }
         });
 

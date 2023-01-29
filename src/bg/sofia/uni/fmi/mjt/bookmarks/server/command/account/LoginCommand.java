@@ -6,6 +6,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.DIContainer;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandBase;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.Session;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.hasher.PasswordHasher;
 
@@ -48,8 +49,10 @@ public class LoginCommand extends CommandBase {
                 return new Response("Invalid username or password.", ResponseStatus.ERROR);
             }
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            logger.logException(e);
-            return new Response("Internal server error.", ResponseStatus.ERROR);
+            String traceId = IdGenerator.generateId();
+            logger.logException(e, traceId);
+            logger.logError("Server error on login request. Trace id: " + traceId);
+            return new Response("Internal server error. Trace id: " + traceId, ResponseStatus.ERROR);
         }
 
         sessionStore.register(new Session(session.key(), user));

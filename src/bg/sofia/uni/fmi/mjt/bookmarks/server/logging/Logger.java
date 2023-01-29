@@ -5,7 +5,7 @@ public interface Logger {
 
     void logError(String message);
 
-    void logException(Exception e);
+    void logException(Exception e, String id);
 
     void log(Severity severity, String message);
 }

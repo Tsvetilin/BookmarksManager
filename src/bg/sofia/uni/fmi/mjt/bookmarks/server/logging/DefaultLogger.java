@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.logging;
 
+import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.LoggerOperationException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers.ConsoleProvider;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers.DefaultConsoleProvider;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers.DefaultFileProvider;
@@ -8,25 +9,22 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.datetime.DateTimeProvider;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.datetime.DefaultDateTimeProvider;
 
-public class BookmarksLogger implements Logger {
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-    private static final String DEFAULT_LOG_FILE_PATH = "";
-    private static final String DEFAULT_ERROR_FILE_PATH = "";
+public class DefaultLogger implements Logger {
 
     private final Severity consoleSeverity;
     private final Severity fileSeverity;
-    private final String logFilePath;
-    private final String errorFilePath;
+
     private final DateTimeProvider dateTimeProvider;
     private final ConsoleProvider consoleProvider;
     private final FileProvider fileProvider;
 
-    private BookmarksLogger(BookmarksLoggerBuilder builder) {
+    private DefaultLogger(BookmarksLoggerBuilder builder) {
         this.consoleSeverity = builder.consoleSeverity;
         this.fileSeverity = builder.fileSeverity;
-        this.logFilePath = builder.logFilePath;
 
-        this.errorFilePath = Nullable.orDefault(builder.errorFilePath, DEFAULT_ERROR_FILE_PATH);
         this.dateTimeProvider = Nullable.orDefault(builder.dateTimeProvider, new DefaultDateTimeProvider());
         this.consoleProvider = Nullable.orDefault(builder.consoleProvider, new DefaultConsoleProvider());
         this.fileProvider = Nullable.orDefault(builder.fileProvider, new DefaultFileProvider());
@@ -36,9 +34,9 @@ public class BookmarksLogger implements Logger {
         return new BookmarksLoggerBuilder();
     }
 
-    public static BookmarksLogger getDefaultLogger() {
+    public static DefaultLogger getDefaultLogger() {
         return new BookmarksLoggerBuilder().addConsoleLogging(Severity.INFO)
-            .addFileLogging(Severity.INFO, DEFAULT_LOG_FILE_PATH).build();
+            .addFileLogging(Severity.INFO).build();
     }
 
 
@@ -53,30 +51,42 @@ public class BookmarksLogger implements Logger {
     }
 
     @Override
-    public void logException(Exception e) {
-        log(Severity.ERROR, "Logged exception!");
-
-        // TODO: do logging
+    public void logException(Exception e, String id) {
+        try {
+            fileProvider.writeError(e, id);
+        } catch (LoggerOperationException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
     public void log(Severity severity, String message) {
-        // TODO: get timestamp to be same everywhere or generate full message here
+
+        var dateTime = dateTimeProvider.getCurrentTime();
+
         if (fileSeverity.getValue() >= severity.getValue()) {
-            logFile(severity, message);
+            logFile(severity, dateTime, message);
         }
 
         if (consoleSeverity.getValue() >= severity.getValue()) {
-            logConsole(severity, message);
+            logConsole(severity, dateTime, message);
         }
     }
 
-    private void logFile(Severity severity, String message) {
-
+    private void logFile(Severity severity, LocalDateTime dateTime, String message) {
+        try {
+            fileProvider.write("[" + severity.name() + "] [" + dateTime + "] " + message);
+        } catch (LoggerOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private void logConsole(Severity severity, String message) {
-
+    private void logConsole(Severity severity, LocalDateTime dateTime, String message) {
+        try {
+            consoleProvider.write("[" + severity.name() + "] [" + dateTime + "] " + message);
+        } catch (LoggerOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -87,8 +97,6 @@ public class BookmarksLogger implements Logger {
         private DateTimeProvider dateTimeProvider;
         private ConsoleProvider consoleProvider;
         private FileProvider fileProvider;
-        private String logFilePath;
-        private String errorFilePath;
 
         private BookmarksLoggerBuilder() {
         }
@@ -98,8 +106,7 @@ public class BookmarksLogger implements Logger {
             return this;
         }
 
-        public BookmarksLoggerBuilder addFileLogging(Severity severity, String path) {
-            logFilePath = path;
+        public BookmarksLoggerBuilder addFileLogging(Severity severity) {
             fileSeverity = severity;
             return this;
         }
@@ -109,14 +116,9 @@ public class BookmarksLogger implements Logger {
             return addConsoleLogging(severity);
         }
 
-        public BookmarksLoggerBuilder addFileLogging(Severity severity, String path, FileProvider provider) {
+        public BookmarksLoggerBuilder addFileLogging(Severity severity, FileProvider provider) {
             fileProvider = provider;
-            return addFileLogging(severity, path);
-        }
-
-        public BookmarksLoggerBuilder addErrorLogging(String filePath) {
-            errorFilePath = filePath;
-            return this;
+            return addFileLogging(severity);
         }
 
         public BookmarksLoggerBuilder configureDateTimeProvider(DateTimeProvider provider) {
@@ -134,8 +136,8 @@ public class BookmarksLogger implements Logger {
             return this;
         }
 
-        public BookmarksLogger build() {
-            return new BookmarksLogger(this);
+        public DefaultLogger build() {
+            return new DefaultLogger(this);
         }
 
     }

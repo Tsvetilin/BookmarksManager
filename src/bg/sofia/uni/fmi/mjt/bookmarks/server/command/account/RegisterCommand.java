@@ -43,8 +43,10 @@ public class RegisterCommand extends CommandBase {
         try {
             hashedPassword = DIContainer.request(PasswordHasher.class).hash(password);
         } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
-            logger.logException(e);
-            return new Response("Internal server error.", ResponseStatus.ERROR);
+            String traceId = IdGenerator.generateId();
+            logger.logError("Server error in register request. Trace id: " + traceId);
+            logger.logException(e, traceId);
+            return new Response("Internal server error. Trace id: " + traceId, ResponseStatus.ERROR);
         }
 
         User user = new User(IdGenerator.generateId(), username, hashedPassword);

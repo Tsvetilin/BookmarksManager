@@ -4,6 +4,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandExecutor;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.Logger;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.Session;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -81,8 +82,10 @@ public class Server {
                 }
             }
         } catch (IOException e) {
-            logger.logError("There is a problem with the server socket: " + e.getMessage());
-            logger.logException(e);
+            String traceId = IdGenerator.generateId();
+            logger.logError(
+                "There is a problem with the server socket: " + e.getMessage() + ". Trace id: " + traceId);
+            logger.logException(e, traceId);
         }
 
         logger.logInfo("Server stopped");

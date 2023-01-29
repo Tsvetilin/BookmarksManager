@@ -6,7 +6,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandBase;
 
 public class HelpCommand extends CommandBase {
 
-    private static final String HELP_PROMPT = "";
+    private static final String HELP_PROMPT = "Help pls";
 
     @Override
     public Response execute() {
