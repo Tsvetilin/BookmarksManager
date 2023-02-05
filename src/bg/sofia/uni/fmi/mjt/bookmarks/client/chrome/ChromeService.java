@@ -5,10 +5,11 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 public class ChromeService {
 
-    public static String getBookmarks() {
+    public static String getBookmarks() throws ChromeException {
         String osName = System.getProperty("os.name");
         String osUser = System.getProperty("user.name");
 
@@ -23,22 +24,19 @@ public class ChromeService {
             throw new UnsupportedOperationException("Cannot extract bookmarks.");
         }
 
-        try (var br = Files.newBufferedReader(Path.of(path))) {
-            Gson gson = new Gson();
-            ChromeImport = gson.fromJson(br, ChromeImport.class);
+        Gson gson = new Gson();
 
-            BookmarkCategories root = chromeImport.getRoot();
-
-            root.getBookmarkBar().getChildren().stream()
+        try (var reader = Files.newBufferedReader(Path.of(path))) {
+            return gson
+                .fromJson(reader, ChromeBookmarks.class)
+                .getRoot()
+                .getBookmarkBar()
+                .getChildren()
+                .stream()
                 .map(ChromeBookmark::getUrl)
-                .forEach(url -> addTo("Chrome", url, caller));
-
+                .collect(Collectors.joining(","));
         } catch (IOException e) {
-            String logMsg = BookmarkManager.class + " " + e.getMessage();
-            Dispatcher.logger().log(Level.WARN, LocalDateTime.now(), logMsg);
-            Dispatcher.logger().log(Level.WARN, LocalDateTime.now(), Arrays.toString(e.getStackTrace()));
+            throw new ChromeException();
         }
-
-        return new Response<>(Status.OK, "Chrome import completed. Bookmarks imported to group Chrome.");
     }
 }

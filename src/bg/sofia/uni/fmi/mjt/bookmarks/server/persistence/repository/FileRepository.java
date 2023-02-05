@@ -7,6 +7,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -64,7 +65,7 @@ public class FileRepository<K, T extends Entity<K>> extends Observable<T> implem
 
     @Override
     public Collection<T> getAll() {
-        return table.values();
+        return Collections.unmodifiableCollection(table.values());
     }
 
     @Override

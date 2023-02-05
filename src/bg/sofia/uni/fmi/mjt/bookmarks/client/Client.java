@@ -1,5 +1,7 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.client;
 
+import bg.sofia.uni.fmi.mjt.bookmarks.client.chrome.ChromeException;
+import bg.sofia.uni.fmi.mjt.bookmarks.client.chrome.ChromeService;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Request;
 import com.google.gson.Gson;
 
@@ -63,7 +65,11 @@ public class Client {
                 }
 
                 if (IMPORT_CHROME_COMMAND.equalsIgnoreCase(command)) {
-                    command += importChrome();
+                    try {
+                        command += " " + ChromeService.getBookmarks();
+                    } catch (ChromeException e) {
+                        System.out.println("Error parsing chrome bookmarks from your client.");
+                    }
                 }
 
                 writer.println(new Request(command).getDataMessage());
