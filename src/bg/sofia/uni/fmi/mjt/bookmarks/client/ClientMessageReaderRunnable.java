@@ -3,11 +3,11 @@ package bg.sofia.uni.fmi.mjt.bookmarks.client;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class ClientRunnable implements Runnable {
+public class ClientMessageReaderRunnable implements Runnable {
 
     private final BufferedReader reader;
 
-    public ClientRunnable(BufferedReader reader) {
+    public ClientMessageReaderRunnable(BufferedReader reader) {
         this.reader = reader;
     }
 

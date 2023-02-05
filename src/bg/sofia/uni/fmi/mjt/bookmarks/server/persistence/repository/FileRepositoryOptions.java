@@ -66,7 +66,7 @@ public class FileRepositoryOptions {
 
     private static class FileRepositoryOptionsBuilder {
 
-        private String path;
+        private final String path;
         private Serializer serializer;
 
         public FileRepositoryOptionsBuilder(String path) {

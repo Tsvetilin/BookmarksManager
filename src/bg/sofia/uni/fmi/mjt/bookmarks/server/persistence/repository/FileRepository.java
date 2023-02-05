@@ -1,13 +1,11 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository;
 
-import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.LoggerOperationException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.Entity;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.observe.Observable;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +13,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class FileRepository<K, T extends Entity<K>> implements Repository<K, T> {
+public class FileRepository<K, T extends Entity<K>> extends Observable<T> implements Repository<K, T> {
 
     private final FileRepositoryOptions options;
     private final Map<K, T> table;
@@ -35,6 +33,7 @@ public class FileRepository<K, T extends Entity<K>> implements Repository<K, T> 
     @Override
     public void add(T object) {
         table.put(object.getKey(), object);
+        notifyAdd(object);
     }
 
     @Override
@@ -54,6 +53,7 @@ public class FileRepository<K, T extends Entity<K>> implements Repository<K, T> 
 
     @Override
     public void remove(K key) {
+        notifyRemove(table.get(key));
         table.remove(key);
     }
 

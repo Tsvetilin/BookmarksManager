@@ -1,7 +1,7 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.client;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Request;
-import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +10,8 @@ import java.net.InetSocketAddress;
 import java.nio.channels.Channels;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class Client {
@@ -36,9 +38,6 @@ public class Client {
 
 
     public void start() {
-
-        //TODO: print legend
-
         try (SocketChannel socketChannel = SocketChannel.open();
              BufferedReader reader = new BufferedReader(Channels.newReader(socketChannel, StandardCharsets.UTF_8));
              PrintWriter writer = new PrintWriter(Channels.newWriter(socketChannel, StandardCharsets.UTF_8), true);
@@ -46,13 +45,13 @@ public class Client {
 
             socketChannel.connect(new InetSocketAddress(host, port));
 
-            System.out.println("[ Connected ] Connected to the server.");
+            System.out.println("[ Connected ] Connected to the server. Type help for more info.");
 
-            new Thread(new ClientRunnable(reader)).start();
+            new Thread(new ClientMessageReaderRunnable(reader)).start();
 
             while (true) {
                 System.out.print(COMMAND_PROMPT);
-                String command = scanner.nextLine();
+                String command = scanner.nextLine().trim();
 
                 if (DISCONNECT_COMMAND.equalsIgnoreCase(command)) {
                     break;
@@ -75,9 +74,5 @@ public class Client {
             System.err.println(
                 "[ Error ] An error occurred in the communication with the server. Connection is closed.");
         }
-    }
-
-    private String importChrome() {
-        return " ";
     }
 }

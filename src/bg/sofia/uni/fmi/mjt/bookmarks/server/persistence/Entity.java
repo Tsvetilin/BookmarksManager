@@ -1,5 +1,7 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.persistence;
 
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
+
 import java.util.UUID;
 
 public class Entity<K> {
@@ -7,6 +9,7 @@ public class Entity<K> {
 
     public Entity(K key) {
         this.key = key;
+        Nullable.throwIfNull(key);
     }
 
     public K getKey() {

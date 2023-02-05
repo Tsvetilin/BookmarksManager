@@ -1,6 +1,7 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.models;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.Entity;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -22,6 +23,8 @@ public class Bookmark extends Entity<String> {
         this.title = title;
         this.keywords = List.copyOf(keywords);
         this.user = user;
+
+        Nullable.throwIfAnyNull(url, user);
     }
 
     public String getUrl() {

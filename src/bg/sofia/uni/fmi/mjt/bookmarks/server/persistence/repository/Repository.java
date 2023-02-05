@@ -13,6 +13,7 @@ public interface Repository<K, T extends Entity<K>> {
     Optional<T> get(K key);
 
     Optional<T> find(Predicate<T> predicate);
+
     boolean any(Predicate<T> predicate);
 
     void remove(K key);
@@ -22,5 +23,4 @@ public interface Repository<K, T extends Entity<K>> {
     Collection<T> getAll();
 
     void persist();
-
 }
