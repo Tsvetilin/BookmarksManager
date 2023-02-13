@@ -10,6 +10,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.StemmingAlgo;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Stopwords;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -74,6 +75,7 @@ public class DefaultBookmarksService implements BookmarksService {
         var tags = Arrays.stream(htmlText)
             .map(String::trim)
             .map(String::toLowerCase)
+            .map(StemmingAlgo::suffixStripping)
             .filter(Predicate.not(stopwords::contains))
             .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
             .entrySet()

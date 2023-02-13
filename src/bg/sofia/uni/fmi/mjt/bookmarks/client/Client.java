@@ -68,7 +68,7 @@ public class Client {
                     try {
                         command += " " + ChromeService.getBookmarks();
                     } catch (ChromeException e) {
-                        System.out.println("Error parsing chrome bookmarks from your client.");
+                        System.out.println("[ Error ] Error parsing chrome bookmarks from your client.");
                     }
                 }
 

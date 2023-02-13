@@ -1,12 +1,15 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.models;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.Entity;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.SerializableEntity;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.serialize.Serializer;
 
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Group extends Entity<String> {
+public class Group extends SerializableEntity<String> {
     private final String name;
     private final User user;
     private final List<Bookmark> bookmarks;
@@ -35,5 +38,10 @@ public class Group extends Entity<String> {
 
     public List<Bookmark> bookmarksSynchronizer() {
         return bookmarks;
+    }
+
+    @Override
+    public void serialize(Writer writer, Serializer serializer) {
+
     }
 }

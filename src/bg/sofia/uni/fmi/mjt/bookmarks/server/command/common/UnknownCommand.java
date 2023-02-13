@@ -6,8 +6,19 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandBase;
 
 public class UnknownCommand extends CommandBase {
 
+    private static final String DEFAULT_MESSAGE = "Unknown command specified. Use command 'help' for more info.";
+    private final String message;
+
+    public UnknownCommand() {
+        this(DEFAULT_MESSAGE);
+    }
+
+    public UnknownCommand(String message) {
+        this.message = message;
+    }
+
     @Override
     public Response execute() {
-        return new Response("Unknown command specified", ResponseStatus.ERROR);
+        return new Response(message, ResponseStatus.ERROR);
     }
 }
