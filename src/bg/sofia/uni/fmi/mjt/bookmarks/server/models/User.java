@@ -1,17 +1,13 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.models;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.Entity;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.SerializableEntity;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.serialize.Serializer;
 
-import java.awt.print.Book;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class User extends SerializableEntity<String> {
+public class User extends Entity<String> {
     private final String username;
     private final String password;
 
@@ -54,8 +50,4 @@ public class User extends SerializableEntity<String> {
         return groups;
     }
 
-    @Override
-    public void serialize(Writer writer, Serializer serializer) {
-
-    }
 }

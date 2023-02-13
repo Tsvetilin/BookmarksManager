@@ -1,16 +1,13 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.models;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.Entity;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.SerializableEntity;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.serialize.Serializer;
 
 import java.io.Writer;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
-public class Bookmark extends SerializableEntity<String> {
+public class Bookmark extends Entity<String> {
     private final String url;
     private final String shortened;
     private final String title;
@@ -62,8 +59,4 @@ public class Bookmark extends SerializableEntity<String> {
         return title + " - " + url;
     }
 
-    @Override
-    public void serialize(Writer writer, Serializer serializer) {
-
-    }
 }

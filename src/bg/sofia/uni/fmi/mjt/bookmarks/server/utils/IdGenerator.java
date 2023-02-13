@@ -23,4 +23,9 @@ public class IdGenerator {
     public static void addUsedId(String id) {
         IDS.add(id);
     }
+
+    public static void clear() {
+        IDS.clear();
+    }
+
 }
