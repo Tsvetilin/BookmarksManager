@@ -23,4 +23,6 @@ public interface Repository<K, T extends Entity<K>> {
     Collection<T> getAll();
 
     void persist();
+
+    void load();
 }

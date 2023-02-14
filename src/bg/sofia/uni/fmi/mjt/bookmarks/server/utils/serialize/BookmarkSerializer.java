@@ -37,7 +37,8 @@ public class BookmarkSerializer implements JsonSerializer<Bookmark>, JsonDeseria
             jsonObject.get("shortened").getAsString(),
             jsonObject.get("title").getAsString(),
             Arrays.stream(jsonObject.get("keywords").getAsString().split(",")).toList(),
-            user
+            user,
+            group
         );
 
         group.bookmarksSynchronizer().add(bookmark);
@@ -52,6 +53,7 @@ public class BookmarkSerializer implements JsonSerializer<Bookmark>, JsonDeseria
 
         result.addProperty("id", bookmark.getKey());
         result.addProperty("url", bookmark.getUrl());
+        result.addProperty("title", bookmark.getTitle());
         result.addProperty("shortened", bookmark.getShortened());
         result.addProperty("keywords", String.join(",", bookmark.getKeywords()));
         result.addProperty("userId", bookmark.getUser().getKey());

@@ -14,9 +14,10 @@ public class LogoutCommand extends CommandBase {
             return new Response("User not logged in.", ResponseStatus.ERROR);
         }
 
+        logger.logInfo("User logged out: " + sessionStore.getUser(session).getUsername());
+
         sessionStore.remove(session);
 
-        logger.logInfo("User logged out: " + session.user().getUsername());
         return new Response("Logged out successfully.", ResponseStatus.OK);
     }
 }

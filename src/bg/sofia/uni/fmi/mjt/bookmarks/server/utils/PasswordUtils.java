@@ -3,7 +3,7 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.utils;
 import java.util.regex.Pattern;
 
 public class PasswordUtils {
-    private static final String PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
+    private static final String PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!.dsa@$%^&*-]).{8,}$";
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
     private static final String PASSWORD_REQUIREMENTS =
         "Password must be at least 8 symbols long, contain 1 uppercase letter, " +

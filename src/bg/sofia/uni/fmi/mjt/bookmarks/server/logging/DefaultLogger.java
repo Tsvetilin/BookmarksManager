@@ -69,18 +69,22 @@ public class DefaultLogger implements Logger {
 
         var dateTime = dateTimeProvider.getCurrentTime();
 
-        if (fileSeverity.getValue() >= severity.getValue()) {
+        if (fileSeverity.getValue() <= severity.getValue()) {
             logFile(severity, dateTime, message);
         }
 
-        if (consoleSeverity.getValue() >= severity.getValue()) {
+        if (consoleSeverity.getValue() <= severity.getValue()) {
             logConsole(severity, dateTime, message);
         }
     }
 
+    private String getMessage(Severity severity, LocalDateTime dateTime, String message) {
+        return ("[" + severity.name() + "] [" + dateTime + "] " + message).trim() + System.lineSeparator();
+    }
+
     private void logFile(Severity severity, LocalDateTime dateTime, String message) {
         try {
-            fileProvider.write("[" + severity.name() + "] [" + dateTime + "] " + message);
+            fileProvider.write(getMessage(severity,dateTime,message));
         } catch (LoggerOperationException e) {
             throw new RuntimeException(e);
         }
@@ -88,7 +92,7 @@ public class DefaultLogger implements Logger {
 
     private void logConsole(Severity severity, LocalDateTime dateTime, String message) {
         try {
-            consoleProvider.write("[" + severity.name() + "] [" + dateTime + "] " + message);
+            consoleProvider.write(getMessage(severity,dateTime,message));
         } catch (LoggerOperationException e) {
             throw new RuntimeException(e);
         }

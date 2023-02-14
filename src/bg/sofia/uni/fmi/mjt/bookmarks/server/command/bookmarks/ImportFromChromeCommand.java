@@ -16,32 +16,36 @@ import java.util.List;
 public class ImportFromChromeCommand extends AuthenticatedCommand {
 
     private static final String CHROME_GROUP = "Chrome";
-    private final List<String> urls;
+    private final String url;
 
-    public ImportFromChromeCommand(List<String> urls) {
-        this.urls = urls;
-        Nullable.throwIfNull(urls);
+    public ImportFromChromeCommand(String url) {
+        this.url = url;
+        Nullable.throwIfNull(url);
     }
 
     @Override
     protected Response authenticatedExecute() {
 
-        if (user.getGroups().stream().noneMatch(x -> x.getName().equals(CHROME_GROUP))) {
-            context.groups().add(new Group(IdGenerator.generateId(), CHROME_GROUP, user));
+        var chromeGroup =
+            user.getGroups()
+                .stream()
+                .filter(x -> x.getName().equals(CHROME_GROUP))
+                .findFirst()
+                .orElse(new Group(IdGenerator.generateId(), CHROME_GROUP, user));
+        if (user.getGroups().stream().noneMatch(x -> x == chromeGroup)) {
+            context.groups().add(chromeGroup);
         }
 
         BookmarksService service = DIContainer.request(BookmarksService.class);
 
-        urls.forEach(x -> {
-            try {
-                context.bookmarks().add(service.generateBookmark(x, CHROME_GROUP, false, user));
-            } catch (InvalidBookmarkException | BookmarkValidationException e) {
-                String traceId = IdGenerator.generateId();
-                logger.logError("Server error on importing bookmarks from chrome. Trace id: " + traceId);
-                logger.logException(e, traceId);
-            }
-        });
+        try {
+            context.bookmarks().add(service.generateBookmark(url, chromeGroup, false, user));
+        } catch (InvalidBookmarkException | BookmarkValidationException e) {
+            String traceId = IdGenerator.generateId();
+            logger.logError("Server error on importing bookmarks from chrome. Trace id: " + traceId);
+            logger.logException(e, traceId);
+        }
 
-        return new Response("Successfully imported bookmarks from Chrome.", ResponseStatus.OK);
+        return new Response("Successfully imported bookmark from Chrome.", ResponseStatus.OK);
     }
 }

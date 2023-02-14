@@ -17,15 +17,17 @@ public class Bookmark extends Entity<String> {
     private Group group;
     private final User user;
 
-    public Bookmark(String key, String url, String shortened, String title, Collection<String> keywords, User user) {
+    public Bookmark(String key, String url, String shortened, String title, Collection<String> keywords, User user,
+                    Group group) {
         super(key);
         this.url = url;
         this.shortened = shortened;
         this.title = title;
         this.keywords = List.copyOf(keywords);
         this.user = user;
+        this.group = group;
 
-        Nullable.throwIfAnyNull(url, user);
+        Nullable.throwIfAnyNull(url, user, group);
     }
 
     public String getUrl() {
@@ -50,10 +52,6 @@ public class Bookmark extends Entity<String> {
 
     public Group getGroup() {
         return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
     }
 
     public String listPreview() {

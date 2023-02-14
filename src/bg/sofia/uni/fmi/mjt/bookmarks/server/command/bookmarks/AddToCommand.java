@@ -28,7 +28,13 @@ public class AddToCommand extends AuthenticatedCommand {
     @Override
     protected Response authenticatedExecute() {
 
-        if (user.getGroups().stream().noneMatch(x -> x.getName().equals(group))) {
+        var actualGroup = user.getGroups()
+            .stream()
+            .filter(x -> x.getName().equals(group))
+            .findFirst()
+            .orElse(null);
+
+        if (actualGroup == null) {
             logger.logInfo("Invalid group specified " + group + " for user " + user.getUsername());
             return new Response("Invalid group specified.", ResponseStatus.ERROR);
         }
@@ -40,7 +46,8 @@ public class AddToCommand extends AuthenticatedCommand {
 
         Bookmark bookmark;
         try {
-            bookmark = DIContainer.request(BookmarksService.class).generateBookmark(url, group, isShortened, user);
+            bookmark =
+                DIContainer.request(BookmarksService.class).generateBookmark(url, actualGroup, isShortened, user);
         } catch (BookmarkValidationException e) {
             String traceId = IdGenerator.generateId();
             logger.logError("Server error on saving bookmark. Trace id: " + traceId);

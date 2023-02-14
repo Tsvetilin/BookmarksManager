@@ -7,6 +7,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.StopWordsException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.UrlShortenerException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.external.UrlShortener;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Group;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
@@ -38,13 +39,13 @@ public class DefaultBookmarksService implements BookmarksService {
     }
 
     @Override
-    public Bookmark generateBookmark(String url, String group, boolean shortened, User user)
+    public Bookmark generateBookmark(String url, Group group, boolean shortened, User user)
         throws BookmarkValidationException, InvalidBookmarkException {
         Nullable.throwIfAnyNull(url, group, user);
 
         validateUrl(url);
 
-        String shortenedUrl = null;
+        String shortenedUrl = "";
 
         if (shortened) {
             UrlShortener shortener = DIContainer.request(UrlShortener.class);
@@ -85,7 +86,7 @@ public class DefaultBookmarksService implements BookmarksService {
             .limit(MAX_KEYWORDS)
             .toList();
 
-        return new Bookmark(IdGenerator.generateId(), url, shortenedUrl, htmlDocument.title(), tags, user);
+        return new Bookmark(IdGenerator.generateId(), url, shortenedUrl, htmlDocument.title(), tags, user, group);
     }
 
     @Override
@@ -95,7 +96,7 @@ public class DefaultBookmarksService implements BookmarksService {
                 client.send(HttpRequest.newBuilder().uri(URI.create(url)).build(), HttpResponse.BodyHandlers.ofString())
                     .statusCode() !=
                     HttpURLConnection.HTTP_NOT_FOUND;
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
             throw new BookmarkValidationException(e);
         }
     }

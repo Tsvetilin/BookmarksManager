@@ -10,13 +10,23 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.observe.Grou
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
 public class FileDatabaseContext implements DatabaseContext {
+
+    private static final int AUTOSAVE_INTERVAL = 15 * 60 * 1000;
     private final Repository<String, User> usersRepository;
     private final Repository<String, Bookmark> bookmarksRepository;
     private final Repository<String, Group> groupsRepository;
+    private final AutoSaveContextDaemon saveContextDaemon;
 
     public FileDatabaseContext(FileRepository<String, User> usersRepository,
                                FileRepository<String, Bookmark> bookmarksRepository,
                                FileRepository<String, Group> groupsRepository) {
+        this(usersRepository, bookmarksRepository, groupsRepository, AUTOSAVE_INTERVAL);
+    }
+
+    public FileDatabaseContext(FileRepository<String, User> usersRepository,
+                               FileRepository<String, Bookmark> bookmarksRepository,
+                               FileRepository<String, Group> groupsRepository,
+                               int autoSaveInterval) {
 
         Nullable.throwIfAnyNull(usersRepository, bookmarksRepository, groupsRepository);
         this.usersRepository = usersRepository;
@@ -27,6 +37,10 @@ public class FileDatabaseContext implements DatabaseContext {
             new BookmarksObserver(usersRepository, groupsRepository));
         ((FileRepository<String, Group>) this.groupsRepository).attach(
             new GroupsObserver(usersRepository));
+
+        autoSaveInterval = autoSaveInterval > 0 ? autoSaveInterval : AUTOSAVE_INTERVAL;
+        saveContextDaemon = new AutoSaveContextDaemon(this, autoSaveInterval);
+        saveContextDaemon.start();
     }
 
     @Override
@@ -45,9 +59,29 @@ public class FileDatabaseContext implements DatabaseContext {
     }
 
     @Override
-    public void persist() {
+    public synchronized void persist() {
         this.usersRepository.persist();
         this.groupsRepository.persist();
         this.bookmarksRepository.persist();
+    }
+
+    @Override
+    public void shutdown() {
+        saveContextDaemon.stopDaemon();
+
+        try {
+            saveContextDaemon.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        persist();
+    }
+
+    @Override
+    public void load() {
+        this.usersRepository.load();
+        this.groupsRepository.load();
+        this.bookmarksRepository.load();
     }
 }

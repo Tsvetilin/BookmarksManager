@@ -1,45 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="39a9bc9c-0414-4dc7-bc58-873737e21483" name="Changes" comment="Add serialization for dbContext">
-      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/exceptions/ChromeException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/exceptions/ExceptionLogHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/Service.java" afterDir="false" />
+    <list default="true" id="39a9bc9c-0414-4dc7-bc58-873737e21483" name="Changes" comment="Complete server options, fix di container, complete cli">
+      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/AutoSaveContextDaemon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/stopwords.txt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/stopwords.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/ClientMessageReaderRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/ClientMessageReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/ClientMessageReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/ClientMessageReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/chrome/BookmarkCategories.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/chrome/BookmarkCategories.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/chrome/BookmarksFolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/chrome/BookmarksFolder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/chrome/ChromeBookmark.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/chrome/ChromeBookmark.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/chrome/ChromeBookmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/chrome/ChromeBookmarks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/chrome/ChromeException.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/chrome/ChromeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/chrome/ChromeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/exceptions/ConnectionException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/DIContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/DIContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/contracts/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/contracts/Request.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/contracts/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/contracts/Response.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/ServerOptions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/ServerOptions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/CommandParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/CommandParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/external/BitlyUrlShortener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/external/BitlyUrlShortener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/external/UrlShortener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/external/UrlShortener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/account/LogoutCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/account/LogoutCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/AddToCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/AddToCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/CleanupCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/CleanupCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/ImportFromChromeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/ImportFromChromeCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/logging/DefaultLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/logging/DefaultLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/logging/Logger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/logging/Logger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/logging/providers/DefaultFileProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/logging/providers/DefaultFileProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/logging/providers/DefaultConsoleProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/logging/providers/DefaultConsoleProvider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/models/Bookmark.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/models/Bookmark.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/models/Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/models/Group.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/models/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/DatabaseContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/DatabaseContext.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/FileDatabaseContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/FileDatabaseContext.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/repository/FileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/repository/FileRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/repository/FileRepositoryOptions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/repository/FileRepositoryOptions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/repository/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/repository/Repository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/services/BookmarksService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/services/BookmarksService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/sessions/SessionStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/sessions/SessionStore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/datetime/DateTimeProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/datetime/DateTimeProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/services/DefaultBookmarksService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/services/DefaultBookmarksService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/PasswordUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/PasswordUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/hasher/DefaultPasswordHasher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/hasher/DefaultPasswordHasher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/hasher/PasswordHasher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/hasher/PasswordHasher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/serialize/BookmarkSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/serialize/BookmarkSerializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/serialize/DefaultSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/serialize/DefaultSerializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/serialize/Serializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/serialize/Serializer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,8 +42,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -95,7 +87,7 @@
       <recent name="bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.co" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.bg.sofia.uni.fmi.mjt.bookmarks.client.Main">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="bg.sofia.uni.fmi.mjt.bookmarks.server.Main" />
       <module name="BookmarksManager" />
@@ -124,8 +116,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.bg.sofia.uni.fmi.mjt.bookmarks.client.Main" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.bg.sofia.uni.fmi.mjt.bookmarks.client.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -137,7 +129,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1674469471195</updated>
-      <workItem from="1674469474561" duration="103814000" />
+      <workItem from="1674469474561" duration="125073000" />
     </task>
     <task id="LOCAL-00001" summary="Add main layout">
       <created>1674491477277</created>
@@ -258,7 +250,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676320373736</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Complete server options, fix di container, complete cli">
+      <created>1676374473973</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1676374473973</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -316,27 +315,39 @@
     <MESSAGE value="Update chrome bookmarks handling" />
     <MESSAGE value="Complete command parsing and work on database entities" />
     <MESSAGE value="Add serialization for dbContext" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add serialization for dbContext" />
+    <MESSAGE value="Complete server options, fix di container, comple cli" />
+    <MESSAGE value="Complete server options, fix di container, complete cli" />
+    <option name="LAST_COMMIT_MESSAGE" value="Complete server options, fix di container, complete cli" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/repository/FileRepositoryOptions.java</url>
-          <line>43</line>
-          <option name="timeStamp" value="4" />
+          <url>jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar!/com/google/gson/Gson.class</url>
+          <line>331</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/repository/FileRepositoryOptions.java</url>
-          <line>34</line>
-          <option name="timeStamp" value="5" />
+          <url>file://$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/hasher/DefaultPasswordHasher.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/repository/FileRepository.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="7" />
+          <url>file://$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/Client.java</url>
+          <line>65</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/chrome/ChromeService.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="reader.lock" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

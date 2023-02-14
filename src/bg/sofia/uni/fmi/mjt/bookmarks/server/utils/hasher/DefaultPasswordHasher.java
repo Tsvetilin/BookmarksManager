@@ -24,11 +24,9 @@ public class DefaultPasswordHasher implements PasswordHasher {
     @Override
     public boolean verify(String password, String expectedHash) throws NoSuchAlgorithmException,
         InvalidKeySpecException {
-
-        String hexSalt = expectedHash.substring(0, expectedHash.indexOf(SALT_SEPARATOR) - 1);
-        if (hexSalt.length() % 2 == 1) {
-            hexSalt = "0" + hexSalt;
-        }
+        var split = expectedHash.split(SALT_SEPARATOR);
+        String hexSalt = split[0];
+        String hexHash = split[1];
 
         byte[] salt = HexFormat.of().parseHex(hexSalt);
         PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, HASH_ITERATIONS, KEY_LENGTH);
@@ -36,7 +34,7 @@ public class DefaultPasswordHasher implements PasswordHasher {
         byte[] hash = skf.generateSecret(spec).getEncoded();
         String actual = new BigInteger(1, hash).toString(HEX);
 
-        return actual.equals(expectedHash);
+        return actual.equals(hexHash);
     }
 
     @Override
@@ -46,9 +44,7 @@ public class DefaultPasswordHasher implements PasswordHasher {
 
         PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, HASH_ITERATIONS, KEY_LENGTH);
         SecretKeyFactory skf = SecretKeyFactory.getInstance(ALGO_NAME);
-
         byte[] hash = skf.generateSecret(spec).getEncoded();
-
         String saltHex = new BigInteger(1, salt).toString(HEX);
         String hashHex = new BigInteger(1, hash).toString(HEX);
 

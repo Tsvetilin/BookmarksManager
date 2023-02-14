@@ -3,9 +3,14 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.Entity;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.observe.Observable;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,26 +21,37 @@ import java.util.stream.Collectors;
 
 public class FileRepository<K, T extends Entity<K>> extends Observable<T> implements Repository<K, T> {
 
-    private final FileRepositoryOptions options;
-    private final Map<K, T> table;
 
-    public FileRepository(FileRepositoryOptions options) {
+    private final FileRepositoryOptions options;
+
+    private final Map<K, T> table;
+    private final Type keyType;
+    private final Type valueType;
+
+    public FileRepository(FileRepositoryOptions options, Type keyType, Type valueType) {
+        this.keyType = keyType;
+        this.valueType = valueType;
+
         Nullable.throwIfNull(options);
 
         this.options = options;
         this.table = new HashMap<>();
-        loadData();
     }
 
-    private void loadData() {
+    @Override
+    public void load() {
         table.clear();
         try (var reader = new BufferedReader(options.reader())) {
             var json = reader.lines().collect(Collectors.joining(System.lineSeparator()));
             if (json.isEmpty() || json.isBlank()) {
                 return;
             }
-            table.putAll(options.serializer().deserialize(json, table.getClass()));
-        } catch (IOException e) {
+            //TODO: improve
+            System.out.println(TypeToken.getParameterized(Map.class, keyType, valueType).getType().getTypeName());
+            table.putAll(
+                options.serializer()
+                    .deserialize(json, TypeToken.getParameterized(Map.class, keyType, valueType).getType()));
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

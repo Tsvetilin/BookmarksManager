@@ -7,9 +7,15 @@ import java.nio.channels.ClosedByInterruptException;
 public class ClientMessageReader implements Runnable {
 
     private final BufferedReader reader;
+    private boolean isRunning;
 
     public ClientMessageReader(BufferedReader reader) {
         this.reader = reader;
+        isRunning = true;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
     }
 
     @Override
@@ -17,7 +23,7 @@ public class ClientMessageReader implements Runnable {
         String line;
         try {
             while (!Thread.interrupted()) {
-                if (reader.ready() && (line = reader.readLine()) != null) {
+                if ((line = reader.readLine()) != null) {
                     System.out.println(line);
                 }
             }
@@ -26,6 +32,8 @@ public class ClientMessageReader implements Runnable {
         } catch (IOException e) {
             System.err.println("[ Disconnected ] Connection is closed, communication terminated.");
         }
+
+        isRunning = false;
     }
 
 }

@@ -39,6 +39,8 @@ public class Main {
                 } else {
                     System.out.println("Invalid command.");
                 }
+            } else if (cmd.equals("disconnect")) {
+                System.out.println("Not connected to server.");
             } else if (cmd.equals("exit")) {
                 System.out.println("Exiting client...");
                 break;
@@ -46,7 +48,6 @@ public class Main {
                 System.out.println("Invalid command.");
                 printCommands();
             }
-
         }
     }
 }

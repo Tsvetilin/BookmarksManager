@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.utils.serialize;
 
+import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Group;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Service;
@@ -21,8 +22,8 @@ public class DefaultSerializer implements Serializer {
         GsonBuilder gsonBuilder = new GsonBuilder();
 
         gsonBuilder.registerTypeAdapter(User.class, new UserSerializer());
-        gsonBuilder.registerTypeAdapter(User.class, new GroupSerializer());
-        gsonBuilder.registerTypeAdapter(User.class, new BookmarkSerializer());
+        gsonBuilder.registerTypeAdapter(Group.class, new GroupSerializer());
+        gsonBuilder.registerTypeAdapter(Bookmark.class, new BookmarkSerializer());
 
         gson = gsonBuilder.create();
     }

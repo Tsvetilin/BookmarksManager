@@ -22,13 +22,12 @@ import java.util.stream.Collectors;
 
 public class CommandParser {
 
-    private static final String PUNCTUATION_REGEX = "[\\s\\p{IsPunctuation}]+";
+    private static final String WHITESPACE_REGEX = "\s+";
 
     private static final String GROUPNAME_PARAM = "--group-name";
     private static final String SHORTEN_PARAM = "--shorten";
     private static final String TITLE_PARAM = "--title";
     private static final String TAGS_PARAM = "--tags";
-    private static final String URL_DELIMITER = ",";
     private static final int ARGS_SIZE_0 = 0;
     private static final int ARGS_SIZE_1 = 1;
     private static final int ARGS_SIZE_2 = 2;
@@ -38,7 +37,7 @@ public class CommandParser {
         Nullable.throwIfNull(str);
 
         var split =
-            Arrays.stream(str.trim().split(PUNCTUATION_REGEX)).filter(x -> !(x.isEmpty() || x.isBlank())).toList();
+            Arrays.stream(str.trim().split(WHITESPACE_REGEX)).filter(x -> !(x.isEmpty() || x.isBlank())).toList();
 
         if (split.size() == 0) {
             return new UnknownCommand();
@@ -65,13 +64,7 @@ public class CommandParser {
     }
 
     private static Command importFromChrome(String cmd) {
-        return new ImportFromChromeCommand(
-            Arrays.stream(
-                    cmd
-                        .substring(CommandType.IMPORT_FROM_CHROME.getName().length() + 1)
-                        .trim()
-                        .split(URL_DELIMITER))
-                .toList());
+        return new ImportFromChromeCommand(cmd.substring(CommandType.IMPORT_FROM_CHROME.getName().length() + 1).trim());
     }
 
     private static Command cleanup(List<String> args) {

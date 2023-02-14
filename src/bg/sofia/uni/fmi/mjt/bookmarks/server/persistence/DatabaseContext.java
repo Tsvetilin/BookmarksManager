@@ -15,4 +15,8 @@ public interface DatabaseContext extends Service {
     Repository<String, Group> groups();
 
     void persist();
+
+    void shutdown();
+
+    void load();
 }

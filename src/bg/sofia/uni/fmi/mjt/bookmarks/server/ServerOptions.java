@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server;
 
+import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.StopWordsException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.DefaultLogger;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.Logger;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.DatabaseContext;
@@ -10,6 +11,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.DefaultSessionStore;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.SessionStore;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Service;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Stopwords;
 
 import javax.xml.crypto.Data;
 import java.lang.reflect.Type;
@@ -20,7 +22,7 @@ import java.util.Map;
 
 public class ServerOptions {
 
-    private static final int DEFAULT_BUFFER_SIZE = 1024;
+    private static final int DEFAULT_BUFFER_SIZE = 8192;
     private static final String DEFAULT_SERVER_HOST = "localhost";
     private static final int DEFAULT_SERVER_PORT = 8080;
 
@@ -50,6 +52,14 @@ public class ServerOptions {
         for (var service : builder.serviceList.entrySet()) {
             DIContainer.register(service.getKey(), service.getValue());
         }
+
+        try {
+            Stopwords.load();
+        } catch (StopWordsException e) {
+            throw new RuntimeException(e);
+        }
+
+        context.load();
     }
 
     public static ServerOptionsBuilder create(int port) {

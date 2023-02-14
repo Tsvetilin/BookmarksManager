@@ -6,6 +6,9 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.DefaultLogger;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.Severity;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers.DefaultConsoleProvider;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers.DefaultFileProvider;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Group;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.FileDatabaseContext;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.FileRepository;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.FileRepositoryOptions;
@@ -40,9 +43,16 @@ public class Main {
             )
             .addDatabaseContext(
                 new FileDatabaseContext(
-                    new FileRepository<>(FileRepositoryOptions.create("./db/users.json").build()),
-                    new FileRepository<>(FileRepositoryOptions.create("./db/bookmarks.json").build()),
-                    new FileRepository<>(FileRepositoryOptions.create("./db/groups.json").build())
+                    new FileRepository<>(
+                        FileRepositoryOptions.create("./db/users.json").build(),
+                        String.class,
+                        User.class),
+                    new FileRepository<>(FileRepositoryOptions.create("./db/bookmarks.json").build(),
+                        String.class,
+                        Bookmark.class),
+                    new FileRepository<>(FileRepositoryOptions.create("./db/groups.json").build(),
+                        String.class,
+                        Group.class)
                 )
             )
             .addService(PasswordHasher.class, new DefaultPasswordHasher(new SecureRandom()))
@@ -50,13 +60,15 @@ public class Main {
             .addService(BookmarksService.class, new DefaultBookmarksService(HttpClient.newHttpClient()))
             .build();
 
-        var server = new Server(options);
+        Thread serverThread = null;
+        Server server = null;
 
         var scanner = new Scanner(System.in);
         System.out.println("<Bookmarks manager server>");
         System.out.println("Available commands: ");
         System.out.println("start : starts the server");
-        System.out.println("stop : stops the server");
+        System.out.println("stop  : stops the server");
+        System.out.println("exit  : exits the server console");
         System.out.println();
 
         while (true) {
@@ -64,23 +76,42 @@ public class Main {
             String cmd = scanner.nextLine();
 
             switch (cmd) {
-                case "start": {
-                    server.start();
+                case "start" -> {
+                    if (server != null) {
+                        System.out.println("Server already started. ");
+                        break;
+                    }
+
+                    server = new Server(options);
+                    serverThread = new Thread(server);
+                    serverThread.start();
+
                     System.out.println("Starting server on port " + PORT + "...");
-                    break;
                 }
 
-                case "stop": {
+                case "stop" -> {
+                    if (server == null) {
+                        System.out.println("Server not started yet.");
+                        break;
+                    }
+
                     System.out.println("Stopping server...");
                     server.stopServer();
-                    server.join();
+                    serverThread.interrupt();
+                    serverThread.join();
+                    server = null;
+                }
+
+                case "exit" -> {
+                    if (server != null) {
+                        System.out.println("Server still running. Cannot exit.");
+                        break;
+                    }
+
                     return;
                 }
 
-                default: {
-                    System.out.println("Invalid command.");
-                    break;
-                }
+                default -> System.out.println("Invalid command.");
             }
 
         }
