@@ -1,6 +1,10 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server;
 
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Service;
+
+import java.lang.reflect.Type;
 import java.security.InvalidKeyException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +13,9 @@ public class DIContainer {
 
     static {
         CONTAINER = new HashMap<>();
+    }
+
+    private DIContainer() {
     }
 
     public static <T> T request(Class<T> tClass) {
@@ -20,7 +27,17 @@ public class DIContainer {
         return (T) result;
     }
 
-    public static <T> void register(T object) {
-        CONTAINER.put(object.getClass().getName(), object);
+    public static void register(Type type, Service object) {
+
+        Type[] interfaces = object.getClass().getInterfaces();
+        if (Arrays.stream(interfaces).noneMatch(x -> x == type)) {
+            throw new RuntimeException("Cannot add mismatching type definitions.");
+        }
+
+        CONTAINER.put(type.getTypeName(), object);
+    }
+
+    public static void clear() {
+        CONTAINER.clear();
     }
 }

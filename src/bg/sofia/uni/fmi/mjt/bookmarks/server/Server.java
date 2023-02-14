@@ -16,35 +16,28 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
-public class Server {
+public class Server extends Thread {
 
-    private static final int SERVER_PORT = 8080;
-    private static final int BUFFER_SIZE = 1024;
-    private static final String SERVER_HOST = "localhost";
-
+    private final String host;
     private final int port;
     private final Logger logger;
     private final ByteBuffer messageBuffer;
 
     private CommandExecutor commandExecutor;
-
-
     private boolean isStarted = true;
 
-    // TODO: add builder for configuration
-    public Server(int port, Logger logger) {
-        this.port = port;
-        this.logger = logger;
-        this.messageBuffer = ByteBuffer.allocate(BUFFER_SIZE);
+    public Server(ServerOptions options) {
+        this.port = options.port();
+        this.host = options.host();
+        this.logger = options.logger();
+        this.messageBuffer = ByteBuffer.allocate(options.bufferSize());
+        this.commandExecutor = CommandExecutor.configure(options.sessionStore(), options.context(), options.logger());
     }
 
-    public Server(Logger logger) {
-        this(SERVER_PORT, logger);
-    }
-
+    @Override
     public void start() {
         try (ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) {
-            serverSocketChannel.bind(new InetSocketAddress(SERVER_HOST, port));
+            serverSocketChannel.bind(new InetSocketAddress(host, port));
             serverSocketChannel.configureBlocking(false);
 
             Selector selector = Selector.open();
@@ -91,7 +84,7 @@ public class Server {
         logger.logInfo("Server stopped");
     }
 
-    public void stop() {
+    public void stopServer() {
         isStarted = false;
     }
 
@@ -100,7 +93,6 @@ public class Server {
         buffer.flip();
         String message = new String(buffer.array(), 0, buffer.limit()).trim();
         logger.logInfo("Message received from client " + socketChannel.getRemoteAddress() + " : " + message);
-        // TODO: handle session
         Response response = commandExecutor.execute(message, new Session(socketChannel, null));
         buffer.clear();
         buffer.put(response.getDataMessage().getBytes());
@@ -118,6 +110,7 @@ public class Server {
         logger.logInfo("Connection accepted from client " + accept.getRemoteAddress());
     }
 
+    // TODO: remove
     private void disconnect(SelectionKey key) throws IOException {
         key.channel().close();
         key.cancel();

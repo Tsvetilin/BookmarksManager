@@ -20,15 +20,24 @@ public class FileRepository<K, T extends Entity<K>> extends Observable<T> implem
     private final Map<K, T> table;
 
     public FileRepository(FileRepositoryOptions options) {
-        this.options = Nullable.orDefault(options, FileRepositoryOptions.getDefault());
+        Nullable.throwIfNull(options);
+
+        this.options = options;
         this.table = new HashMap<>();
         loadData();
     }
 
     private void loadData() {
         table.clear();
-        var json = new BufferedReader(options.reader()).lines().collect(Collectors.joining(System.lineSeparator()));
-        table.putAll(options.serializer().deserialize(json, table.getClass()));
+        try (var reader = new BufferedReader(options.reader())) {
+            var json = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+            if (json.isEmpty() || json.isBlank()) {
+                return;
+            }
+            table.putAll(options.serializer().deserialize(json, table.getClass()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -70,8 +79,8 @@ public class FileRepository<K, T extends Entity<K>> extends Observable<T> implem
 
     @Override
     public void persist() {
-        try {
-            options.writer().write(options.serializer().serialize(table));
+        try (var writer = options.writer()) {
+            writer.write(options.serializer().serialize(table));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

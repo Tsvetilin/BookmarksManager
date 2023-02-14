@@ -6,6 +6,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Group extends Entity<String> {
     private final String name;
@@ -36,5 +37,18 @@ public class Group extends Entity<String> {
 
     public List<Bookmark> bookmarksSynchronizer() {
         return bookmarks;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Group group = (Group) o;
+        return name.equals(group.name) && user.equals(group.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, user);
     }
 }

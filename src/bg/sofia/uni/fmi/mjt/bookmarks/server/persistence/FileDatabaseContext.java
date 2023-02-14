@@ -17,9 +17,11 @@ public class FileDatabaseContext implements DatabaseContext {
     public FileDatabaseContext(FileRepository<String, User> usersRepository,
                                FileRepository<String, Bookmark> bookmarksRepository,
                                FileRepository<String, Group> groupsRepository) {
-        this.usersRepository = Nullable.orDefault(usersRepository, new FileRepository<>(null));
-        this.bookmarksRepository = Nullable.orDefault(bookmarksRepository, new FileRepository<>(null));
-        this.groupsRepository = Nullable.orDefault(groupsRepository, new FileRepository<>(null));
+
+        Nullable.throwIfAnyNull(usersRepository, bookmarksRepository, groupsRepository);
+        this.usersRepository = usersRepository;
+        this.bookmarksRepository = bookmarksRepository;
+        this.groupsRepository = groupsRepository;
 
         ((FileRepository<String, Bookmark>) this.bookmarksRepository).attach(
             new BookmarksObserver(usersRepository, groupsRepository));

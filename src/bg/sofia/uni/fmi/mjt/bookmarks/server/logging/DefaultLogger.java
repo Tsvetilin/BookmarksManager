@@ -9,7 +9,6 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.datetime.DateTimeProvider;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.datetime.DefaultDateTimeProvider;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class DefaultLogger implements Logger {
@@ -44,6 +43,12 @@ public class DefaultLogger implements Logger {
     public void logInfo(String message) {
         log(Severity.INFO, message);
     }
+
+    @Override
+    public void logWarning(String message) {
+        log(Severity.WARN, message);
+    }
+
 
     @Override
     public void logError(String message) {

@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -18,13 +19,13 @@ import java.time.LocalDateTime;
 
 public class DefaultFileProvider implements FileProvider {
 
-    private static final String DEFAULT_LOG_FILE_PATH = "";
-    private static final String DEFAULT_ERROR_FILE_PATH = "";
+    private static final String DEFAULT_LOG_FILE_PATH = "./logs/common/";
+    private static final String DEFAULT_ERROR_FILE_PATH = "./logs/errors/";
     private final String logFilePath;
     private final String errorFilePath;
 
     public DefaultFileProvider() {
-        this(null, null);
+        this(DEFAULT_LOG_FILE_PATH, DEFAULT_ERROR_FILE_PATH);
     }
 
     public DefaultFileProvider(String logFilePath, String errorFilePath) {
@@ -70,9 +71,12 @@ public class DefaultFileProvider implements FileProvider {
     private void ensureCreated(Path path) throws LoggerOperationException {
         if (!Files.exists(path)) {
             try {
-                Files.createDirectories(path);
+                Files.createDirectories(path.getParent().toAbsolutePath());
+                Files.createFile(path.toAbsolutePath());
+            } catch (FileAlreadyExistsException e) {
+                //ignored
             } catch (IOException e) {
-                throw new LoggerOperationException(e);
+                throw new RuntimeException(e);
             }
         }
     }

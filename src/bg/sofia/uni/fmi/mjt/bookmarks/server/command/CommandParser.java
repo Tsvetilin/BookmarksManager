@@ -29,6 +29,10 @@ public class CommandParser {
     private static final String TITLE_PARAM = "--title";
     private static final String TAGS_PARAM = "--tags";
     private static final String URL_DELIMITER = ",";
+    private static final int ARGS_SIZE_0 = 0;
+    private static final int ARGS_SIZE_1 = 1;
+    private static final int ARGS_SIZE_2 = 2;
+    private static final int ARGS_SIZE_3 = 3;
 
     public static Command parse(String str) {
         Nullable.throwIfNull(str);
@@ -71,7 +75,7 @@ public class CommandParser {
     }
 
     private static Command cleanup(List<String> args) {
-        if (args.size() != 0) {
+        if (args.size() != ARGS_SIZE_0) {
             return new UnknownCommand("Invalid arguments count. Cleanup command has no arguments.");
         }
 
@@ -79,11 +83,11 @@ public class CommandParser {
     }
 
     private static Command list(List<String> args) {
-        if (args.size() == 0) {
+        if (args.size() == ARGS_SIZE_0) {
             return new ListCommand();
         }
 
-        if (args.size() == 2 && args.get(0).equals(GROUPNAME_PARAM)) {
+        if (args.size() == ARGS_SIZE_2 && args.get(0).equals(GROUPNAME_PARAM)) {
             return new ListByGroupCommand(args.get(1));
         }
 
@@ -91,7 +95,7 @@ public class CommandParser {
     }
 
     private static Command search(List<String> args) {
-        if (args.size() < 2) {
+        if (args.size() < ARGS_SIZE_2) {
             return new UnknownCommand();
         }
 
@@ -107,7 +111,7 @@ public class CommandParser {
     }
 
     private static Command removeFrom(List<String> args) {
-        if (args.size() != 2) {
+        if (args.size() != ARGS_SIZE_2) {
             return new UnknownCommand("Invalid arguments count. Command requires group name and bookmark.");
         }
 
@@ -115,7 +119,7 @@ public class CommandParser {
     }
 
     private static Command newGroup(List<String> args) {
-        if (args.size() != 1) {
+        if (args.size() != ARGS_SIZE_1) {
             return new UnknownCommand("Invalid arguments count. Command requires only group name.");
         }
 
@@ -123,11 +127,11 @@ public class CommandParser {
     }
 
     private static Command addTo(List<String> args) {
-        if (args.size() == 2) {
+        if (args.size() == ARGS_SIZE_2) {
             return new AddToCommand(args.get(1), args.get(0), false);
         }
 
-        if (args.size() == 3 && args.get(2).equals(SHORTEN_PARAM)) {
+        if (args.size() == ARGS_SIZE_3 && args.get(2).equals(SHORTEN_PARAM)) {
             return new AddToCommand(args.get(1), args.get(0), true);
         }
 
@@ -136,7 +140,7 @@ public class CommandParser {
     }
 
     private static Command login(List<String> args) {
-        if (args.size() != 2) {
+        if (args.size() != ARGS_SIZE_2) {
             return new UnknownCommand("Invalid arguments count. Command requires username and password.");
         }
 
@@ -144,7 +148,7 @@ public class CommandParser {
     }
 
     private static Command logout(List<String> args) {
-        if (args.size() != 0) {
+        if (args.size() != ARGS_SIZE_0) {
             return new UnknownCommand("Invalid arguments count. Logout command has no arguments.");
         }
 
@@ -152,7 +156,7 @@ public class CommandParser {
     }
 
     private static Command register(List<String> args) {
-        if (args.size() != 2) {
+        if (args.size() != ARGS_SIZE_2) {
             return new UnknownCommand("Invalid arguments count. Command requires username and password.");
         }
 
@@ -160,7 +164,7 @@ public class CommandParser {
     }
 
     private static Command help(List<String> args) {
-        if (args.size() != 0) {
+        if (args.size() != ARGS_SIZE_0) {
             return new UnknownCommand("Invalid arguments count. Help command has no arguments");
         }
 

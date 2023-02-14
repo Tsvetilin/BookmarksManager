@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -17,11 +18,10 @@ public class FileRepositoryOptions {
     private final String path;
     private final Serializer serializer;
 
-    public static FileRepositoryOptions getDefault() {
-        return null;
-    }
-
     private FileRepositoryOptions(FileRepositoryOptionsBuilder builder) {
+        if (builder.path == null || builder.path.isEmpty() || builder.path.isBlank()) {
+            throw new RuntimeException("Repository path cannot be empty.");
+        }
         this.path = builder.path;
         this.serializer = Nullable.orDefault(builder.serializer, new DefaultSerializer());
     }
@@ -54,16 +54,20 @@ public class FileRepositoryOptions {
 
     private void ensureCreated(String path) {
         Path dir = Path.of(path);
+
         if (!Files.exists(dir)) {
             try {
-                Files.createDirectories(dir);
+                Files.createDirectories(dir.getParent().toAbsolutePath());
+                Files.createFile(dir.toAbsolutePath());
+            } catch (FileAlreadyExistsException e) {
+                //ignored
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    private static class FileRepositoryOptionsBuilder {
+    public static class FileRepositoryOptionsBuilder {
 
         private final String path;
         private Serializer serializer;
@@ -77,7 +81,7 @@ public class FileRepositoryOptions {
             return this;
         }
 
-        public FileRepositoryOptions build()  {
+        public FileRepositoryOptions build() {
             return new FileRepositoryOptions(this);
         }
 

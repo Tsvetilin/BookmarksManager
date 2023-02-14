@@ -2,6 +2,7 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.utils.serialize;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Group;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;

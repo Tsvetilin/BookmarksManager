@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.client.chrome;
 
+import bg.sofia.uni.fmi.mjt.bookmarks.client.exceptions.ChromeException;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -11,17 +12,17 @@ public class ChromeService {
 
     public static String getBookmarks() throws ChromeException {
         String osName = System.getProperty("os.name");
-        String osUser = System.getProperty("user.name");
 
         String path;
         if (osName.toLowerCase().contains("linux")) {
-            path = String.format("/home/%s/.config/google-chrome/Default/Bookmarks", osUser);
+            path = "~/.config/google-chrome/Default/";
         } else if (osName.toLowerCase().contains("windows")) {
             path = "AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks";
         } else if (osName.toLowerCase().contains("mac")) {
-            path = String.format("/Users/%s/Library/Application\\ Support/Google/Chrome/Bookmarks", osUser);
+            path =
+                "/Users/" + System.getProperty("user.name") + "/Library/Application\\ Support/Google/Chrome/Bookmarks";
         } else {
-            throw new UnsupportedOperationException("Cannot extract bookmarks.");
+            throw new ChromeException("Cannot extract bookmarks. Unknown OS.");
         }
 
         Gson gson = new Gson();
@@ -29,14 +30,14 @@ public class ChromeService {
         try (var reader = Files.newBufferedReader(Path.of(path))) {
             return gson
                 .fromJson(reader, ChromeBookmarks.class)
-                .getRoot()
-                .getBookmarkBar()
-                .getChildren()
+                .roots()
+                .getAll()
                 .stream()
-                .map(ChromeBookmark::getUrl)
+                .map(ChromeBookmark::url)
+                .distinct()
                 .collect(Collectors.joining(","));
         } catch (IOException e) {
-            throw new ChromeException();
+            throw new ChromeException("Error extracting bookmarks from system files.");
         }
     }
 }

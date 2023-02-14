@@ -6,6 +6,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class Bookmark extends Entity<String> {
     private final String url;
@@ -59,4 +60,16 @@ public class Bookmark extends Entity<String> {
         return title + " - " + url;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bookmark bookmark = (Bookmark) o;
+        return url.equals(bookmark.url) && group.equals(bookmark.group) && user.equals(bookmark.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(url, group, user);
+    }
 }

@@ -6,6 +6,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class User extends Entity<String> {
     private final String username;
@@ -50,4 +51,16 @@ public class User extends Entity<String> {
         return groups;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return username.equals(user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username);
+    }
 }

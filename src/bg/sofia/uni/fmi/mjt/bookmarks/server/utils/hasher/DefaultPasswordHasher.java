@@ -17,8 +17,8 @@ public class DefaultPasswordHasher implements PasswordHasher {
     private static final String SALT_SEPARATOR = ":";
     private final SecureRandom secureRandom;
 
-    public DefaultPasswordHasher(SecureRandom rnd) {
-        this.secureRandom = rnd;
+    public DefaultPasswordHasher(SecureRandom random) {
+        this.secureRandom = random;
     }
 
     @Override

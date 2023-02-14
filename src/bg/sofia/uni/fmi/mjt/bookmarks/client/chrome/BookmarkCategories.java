@@ -2,21 +2,16 @@ package bg.sofia.uni.fmi.mjt.bookmarks.client.chrome;
 
 import com.google.gson.annotations.SerializedName;
 
-public class BookmarkCategories {
-    @SerializedName("bookmark_bar")
-    private BookmarksFolder bookmarkBar;
-    private BookmarksFolder other;
-    private BookmarksFolder synced;
+import java.util.ArrayList;
+import java.util.List;
 
-    public BookmarksFolder getBookmarkBar() {
-        return bookmarkBar;
-    }
+public record BookmarkCategories(@SerializedName("bookmark_bar") BookmarksFolder bookmarkBar, BookmarksFolder other,
+                                 BookmarksFolder synced) {
+    List<ChromeBookmark> getAll() {
+        var result = new ArrayList<>(bookmarkBar.children());
+        result.addAll(other.children());
+        result.addAll(synced.children());
 
-    public BookmarksFolder getOther() {
-        return other;
-    }
-
-    public BookmarksFolder getSynced() {
-        return synced;
+        return result;
     }
 }

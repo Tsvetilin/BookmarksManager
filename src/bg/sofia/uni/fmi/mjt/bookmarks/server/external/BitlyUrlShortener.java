@@ -43,18 +43,16 @@ public class BitlyUrlShortener implements UrlShortener {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new UrlShortenerException("", e);
+            throw new UrlShortenerException("Unable to complete the request.", e);
         }
 
         if (response.statusCode() != HttpURLConnection.HTTP_CREATED &&
             response.statusCode() != HttpURLConnection.HTTP_OK) {
-            throw new UrlShortenerException("");
+            throw new UrlShortenerException("Cannot create shortened url.");
         }
 
         ShortUrlResult shorten = gson.fromJson(response.body(), ShortUrlResult.class);
 
         return shorten.link();
     }
-
-
 }
