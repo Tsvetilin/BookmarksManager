@@ -15,11 +15,9 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 
-// TODO: check on server close status 130 thrown
 public class Server implements Runnable {
     private final String host;
     private final int port;
@@ -40,6 +38,8 @@ public class Server implements Runnable {
 
     @Override
     public void run() {
+        logger.logInfo("Server started.");
+        context.load();
         try (ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) {
             serverSocketChannel.bind(new InetSocketAddress(host, port));
             serverSocketChannel.configureBlocking(false);

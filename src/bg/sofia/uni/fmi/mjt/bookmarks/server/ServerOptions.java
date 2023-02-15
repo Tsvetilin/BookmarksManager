@@ -4,20 +4,14 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.StopWordsException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.DefaultLogger;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.Logger;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.DatabaseContext;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.FileDatabaseContext;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.FileRepository;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.FileRepositoryOptions;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.DefaultSessionStore;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.SessionStore;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Service;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Stopwords;
 
-import javax.xml.crypto.Data;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ServerOptions {
@@ -58,8 +52,6 @@ public class ServerOptions {
         } catch (StopWordsException e) {
             throw new RuntimeException(e);
         }
-
-        context.load();
     }
 
     public static ServerOptionsBuilder create(int port) {

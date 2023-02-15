@@ -84,7 +84,7 @@ public class DefaultLogger implements Logger {
 
     private void logFile(Severity severity, LocalDateTime dateTime, String message) {
         try {
-            fileProvider.write(getMessage(severity,dateTime,message));
+            fileProvider.write(getMessage(severity, dateTime, message));
         } catch (LoggerOperationException e) {
             throw new RuntimeException(e);
         }
@@ -92,7 +92,7 @@ public class DefaultLogger implements Logger {
 
     private void logConsole(Severity severity, LocalDateTime dateTime, String message) {
         try {
-            consoleProvider.write(getMessage(severity,dateTime,message));
+            consoleProvider.write(getMessage(severity, dateTime, message));
         } catch (LoggerOperationException e) {
             throw new RuntimeException(e);
         }

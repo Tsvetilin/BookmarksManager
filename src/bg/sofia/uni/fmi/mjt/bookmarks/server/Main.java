@@ -47,16 +47,18 @@ public class Main {
                         FileRepositoryOptions.create("./db/users.json").build(),
                         String.class,
                         User.class),
-                    new FileRepository<>(FileRepositoryOptions.create("./db/bookmarks.json").build(),
+                    new FileRepository<>(
+                        FileRepositoryOptions.create("./db/bookmarks.json").build(),
                         String.class,
                         Bookmark.class),
-                    new FileRepository<>(FileRepositoryOptions.create("./db/groups.json").build(),
+                    new FileRepository<>(
+                        FileRepositoryOptions.create("./db/groups.json").build(),
                         String.class,
                         Group.class)
                 )
             )
             .addService(PasswordHasher.class, new DefaultPasswordHasher(new SecureRandom()))
-            .addService(UrlShortener.class, new BitlyUrlShortener(HttpClient.newHttpClient()))
+            .addService(UrlShortener.class, new BitlyUrlShortener(HttpClient.newHttpClient(), "API KEY HERE"))
             .addService(BookmarksService.class, new DefaultBookmarksService(HttpClient.newHttpClient()))
             .build();
 
@@ -65,11 +67,7 @@ public class Main {
 
         var scanner = new Scanner(System.in);
         System.out.println("<Bookmarks manager server>");
-        System.out.println("Available commands: ");
-        System.out.println("start : starts the server");
-        System.out.println("stop  : stops the server");
-        System.out.println("exit  : exits the server console");
-        System.out.println();
+        printCommands();
 
         while (true) {
             System.out.print(">> ");
@@ -111,10 +109,22 @@ public class Main {
                     return;
                 }
 
-                default -> System.out.println("Invalid command.");
+                default -> {
+                    System.out.println("Invalid command.");
+                    printCommands();
+                }
             }
 
         }
     }
+
+    private static void printCommands() {
+        System.out.println("Available commands: ");
+        System.out.println("start : starts the server");
+        System.out.println("stop  : stops the server");
+        System.out.println("exit  : exits the server console");
+        System.out.println();
+    }
+
 
 }

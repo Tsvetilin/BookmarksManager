@@ -1,11 +1,9 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.LoggerOperationException;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.DefaultLogger;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -76,7 +74,7 @@ public class DefaultFileProvider implements FileProvider {
             } catch (FileAlreadyExistsException e) {
                 //ignored
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new LoggerOperationException(e);
             }
         }
     }

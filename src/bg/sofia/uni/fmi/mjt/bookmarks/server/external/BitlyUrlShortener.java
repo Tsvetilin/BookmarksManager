@@ -10,7 +10,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Objects;
 
 public class BitlyUrlShortener implements UrlShortener {
 
@@ -20,10 +19,16 @@ public class BitlyUrlShortener implements UrlShortener {
 
     private final Gson gson;
     private final HttpClient client;
+    private final String authToken;
 
-    public BitlyUrlShortener(HttpClient client) {
+    public BitlyUrlShortener(HttpClient client, String authToken) {
         this.client = client;
         this.gson = new Gson();
+        this.authToken = authToken;
+    }
+
+    public BitlyUrlShortener(HttpClient client) {
+        this(client, AUTH_HEADER_VALUE);
     }
 
     @Override
@@ -35,7 +40,7 @@ public class BitlyUrlShortener implements UrlShortener {
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(BITLY_API_URL))
             .setHeader("Content-Type", "application/json")
-            .setHeader("Authorization", AUTH_HEADER_VALUE)
+            .setHeader("Authorization", authToken)
             .POST(HttpRequest.BodyPublishers.ofString(body))
             .build();
 

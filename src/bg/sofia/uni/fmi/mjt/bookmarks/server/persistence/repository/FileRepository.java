@@ -3,13 +3,10 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.Entity;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.observe.Observable;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
-import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,10 +22,11 @@ public class FileRepository<K, T extends Entity<K>> extends Observable<T> implem
     private final FileRepositoryOptions options;
 
     private final Map<K, T> table;
+
     private final Type keyType;
     private final Type valueType;
 
-    public FileRepository(FileRepositoryOptions options, Type keyType, Type valueType) {
+    public FileRepository(FileRepositoryOptions options, Class<K> keyType, Class<T> valueType) {
         this.keyType = keyType;
         this.valueType = valueType;
 
@@ -46,11 +44,13 @@ public class FileRepository<K, T extends Entity<K>> extends Observable<T> implem
             if (json.isEmpty() || json.isBlank()) {
                 return;
             }
-            //TODO: improve
-            System.out.println(TypeToken.getParameterized(Map.class, keyType, valueType).getType().getTypeName());
+
             table.putAll(
-                options.serializer()
-                    .deserialize(json, TypeToken.getParameterized(Map.class, keyType, valueType).getType()));
+                options
+                    .serializer()
+                    .deserialize(json, TypeToken.getParameterized(Map.class, keyType, valueType).getType())
+            );
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -15,7 +15,7 @@ public class StemmingAlgo {
     public static String suffixStripping(String word) {
         for (String suffix : SUFFIX) {
             if (word.endsWith(suffix)) {
-                return word.substring(0, word.lastIndexOf(suffix) + 1);
+                return word.substring(0, word.lastIndexOf(suffix));
             }
         }
 

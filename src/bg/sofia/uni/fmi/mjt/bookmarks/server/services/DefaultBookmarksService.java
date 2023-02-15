@@ -56,14 +56,14 @@ public class DefaultBookmarksService implements BookmarksService {
             }
         }
 
-        Document htmlDocument = null;
+        Document htmlDocument;
         try {
             htmlDocument = Jsoup.connect(url).get();
         } catch (IOException e) {
             throw new InvalidBookmarkException(e);
         }
 
-        var htmlText = htmlDocument.text().split(SPLIT_REGEX);
+        var htmlText = htmlDocument.body().text().split(SPLIT_REGEX);
 
         Set<String> stopwords;
         try {

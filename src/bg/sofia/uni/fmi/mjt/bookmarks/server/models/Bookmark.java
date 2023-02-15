@@ -3,7 +3,6 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.models;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.Entity;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
-import java.io.Writer;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +13,7 @@ public class Bookmark extends Entity<String> {
     private final String title;
     private final List<String> keywords;
 
-    private Group group;
+    private final Group group;
     private final User user;
 
     public Bookmark(String key, String url, String shortened, String title, Collection<String> keywords, User user,
@@ -55,7 +54,7 @@ public class Bookmark extends Entity<String> {
     }
 
     public String listPreview() {
-        return title + " - " + url;
+        return title + (shortened.trim().isBlank() ? "" : " - " + shortened) + " - " + url;
     }
 
     @Override
