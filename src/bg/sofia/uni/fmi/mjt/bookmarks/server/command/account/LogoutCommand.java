@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.command.account;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.ResponseStatus;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandBase;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandType;
 
 public class LogoutCommand extends CommandBase {
 
@@ -19,5 +20,11 @@ public class LogoutCommand extends CommandBase {
         sessionStore.remove(session);
 
         return new Response("Logged out successfully.", ResponseStatus.OK);
+    }
+
+
+    @Override
+    public CommandType getType() {
+        return CommandType.LOGOUT;
     }
 }

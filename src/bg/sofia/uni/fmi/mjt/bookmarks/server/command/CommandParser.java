@@ -64,7 +64,15 @@ public class CommandParser {
     }
 
     private static Command importFromChrome(String cmd) {
-        return new ImportFromChromeCommand(cmd.substring(CommandType.IMPORT_FROM_CHROME.getName().length() + 1).trim());
+        if (cmd.trim().equals(CommandType.IMPORT_FROM_CHROME.getName())) {
+            return new UnknownCommand("Missing url. Cannot add chrome bookmark.");
+        }
+
+        return new ImportFromChromeCommand(
+            cmd
+                .substring(CommandType.IMPORT_FROM_CHROME.getName().length() + 1)
+                .trim()
+        );
     }
 
     private static Command cleanup(List<String> args) {

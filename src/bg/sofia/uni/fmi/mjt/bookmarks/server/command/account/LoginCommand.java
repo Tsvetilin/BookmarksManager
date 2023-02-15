@@ -4,14 +4,14 @@ import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.ResponseStatus;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.DIContainer;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandBase;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandType;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.PasswordHasherException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.Session;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.hasher.PasswordHasher;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.Optional;
 
 public class LoginCommand extends CommandBase {
@@ -48,7 +48,7 @@ public class LoginCommand extends CommandBase {
                 logger.logInfo("Invalid password when logging: " + username);
                 return new Response("Invalid username or password.", ResponseStatus.ERROR);
             }
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+        } catch (PasswordHasherException e) {
             String traceId = IdGenerator.generateId();
             logger.logException(e, traceId);
             logger.logError("Server error on login request. Trace id: " + traceId);
@@ -59,5 +59,11 @@ public class LoginCommand extends CommandBase {
 
         logger.logInfo("User logged successfully: " + username);
         return new Response("User logged successfully", ResponseStatus.OK);
+    }
+
+
+    @Override
+    public CommandType getType() {
+        return CommandType.LOGIN;
     }
 }

@@ -4,7 +4,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.ResponseStatus;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.DIContainer;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.AuthenticatedCommand;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.BookmarkValidationException;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandType;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.InvalidBookmarkException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.BookmarksService;
@@ -48,21 +48,22 @@ public class AddToCommand extends AuthenticatedCommand {
         try {
             bookmark =
                 DIContainer.request(BookmarksService.class).generateBookmark(url, actualGroup, isShortened, user);
-        } catch (BookmarkValidationException e) {
-            String traceId = IdGenerator.generateId();
-            logger.logError("Server error on saving bookmark. Trace id: " + traceId);
-            logger.logException(e, traceId);
-            return new Response("Invalid url provided. Trace id: " + traceId, ResponseStatus.ERROR);
         } catch (InvalidBookmarkException e) {
             String traceId = IdGenerator.generateId();
             logger.logError("Server error on saving bookmark. Trace id: " + traceId);
             logger.logException(e, traceId);
-            return new Response("Internal server error. Trace id: " + traceId, ResponseStatus.ERROR);
+            return new Response("Invalid url provided. Trace id: " + traceId, ResponseStatus.ERROR);
         }
 
         context.bookmarks().add(bookmark);
 
         logger.logInfo("Bookmark " + url + " created for user " + user.getUsername());
         return new Response("Bookmark added successfully.", ResponseStatus.OK);
+    }
+
+
+    @Override
+    public CommandType getType() {
+        return CommandType.ADD_TO;
     }
 }

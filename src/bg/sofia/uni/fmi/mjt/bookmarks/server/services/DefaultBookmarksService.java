@@ -1,7 +1,6 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.services;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.server.DIContainer;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.BookmarkValidationException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.InvalidBookmarkException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.StopWordsException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.UrlShortenerException;
@@ -40,7 +39,7 @@ public class DefaultBookmarksService implements BookmarksService {
 
     @Override
     public Bookmark generateBookmark(String url, Group group, boolean shortened, User user)
-        throws BookmarkValidationException, InvalidBookmarkException {
+        throws InvalidBookmarkException {
         Nullable.throwIfAnyNull(url, group, user);
 
         validateUrl(url);
@@ -90,14 +89,14 @@ public class DefaultBookmarksService implements BookmarksService {
     }
 
     @Override
-    public boolean validateUrl(String url) throws BookmarkValidationException {
+    public boolean validateUrl(String url) throws InvalidBookmarkException {
         try {
             return
                 client.send(HttpRequest.newBuilder().uri(URI.create(url)).build(), HttpResponse.BodyHandlers.ofString())
                     .statusCode() !=
                     HttpURLConnection.HTTP_NOT_FOUND;
         } catch (Exception e) {
-            throw new BookmarkValidationException(e);
+            throw new InvalidBookmarkException(e);
         }
     }
 }

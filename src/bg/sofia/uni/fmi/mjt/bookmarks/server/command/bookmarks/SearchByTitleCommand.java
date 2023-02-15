@@ -19,4 +19,5 @@ public class SearchByTitleCommand extends SearchCommand {
         return user.getBookmarks().stream().filter(x -> x.getTitle().toLowerCase().contains(title.toLowerCase()))
             .toList();
     }
+
 }

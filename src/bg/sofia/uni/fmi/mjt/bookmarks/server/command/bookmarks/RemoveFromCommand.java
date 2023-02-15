@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.command.bookmarks;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.ResponseStatus;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.AuthenticatedCommand;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandType;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
@@ -37,5 +38,11 @@ public class RemoveFromCommand extends AuthenticatedCommand {
 
         logger.logInfo("User " + user.getUsername() + " removed bookmark " + url + " from group " + group);
         return new Response("Bookmark removed successfully.", ResponseStatus.OK);
+    }
+
+
+    @Override
+    public CommandType getType() {
+        return CommandType.REMOVE_FROM;
     }
 }

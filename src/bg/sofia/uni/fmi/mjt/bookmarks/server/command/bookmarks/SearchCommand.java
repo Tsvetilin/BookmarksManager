@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.command.bookmarks;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.ResponseStatus;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.AuthenticatedCommand;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandType;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
 
 import java.util.List;
@@ -23,5 +24,11 @@ public abstract class SearchCommand extends AuthenticatedCommand {
 
         logger.logInfo("Extracted bookmarks for user " + user.getUsername());
         return new Response(result, ResponseStatus.OK);
+    }
+
+
+    @Override
+    public CommandType getType() {
+        return CommandType.SEARCH;
     }
 }

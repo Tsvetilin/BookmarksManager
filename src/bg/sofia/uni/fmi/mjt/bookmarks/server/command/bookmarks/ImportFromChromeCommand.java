@@ -4,14 +4,12 @@ import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.ResponseStatus;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.DIContainer;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.AuthenticatedCommand;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.BookmarkValidationException;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandType;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.InvalidBookmarkException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Group;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.BookmarksService;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
-
-import java.util.List;
 
 public class ImportFromChromeCommand extends AuthenticatedCommand {
 
@@ -40,12 +38,18 @@ public class ImportFromChromeCommand extends AuthenticatedCommand {
 
         try {
             context.bookmarks().add(service.generateBookmark(url, chromeGroup, false, user));
-        } catch (InvalidBookmarkException | BookmarkValidationException e) {
+        } catch (InvalidBookmarkException e) {
             String traceId = IdGenerator.generateId();
             logger.logError("Server error on importing bookmarks from chrome. Trace id: " + traceId);
             logger.logException(e, traceId);
         }
 
         return new Response("Successfully imported bookmark from Chrome.", ResponseStatus.OK);
+    }
+
+
+    @Override
+    public CommandType getType() {
+        return CommandType.IMPORT_FROM_CHROME;
     }
 }

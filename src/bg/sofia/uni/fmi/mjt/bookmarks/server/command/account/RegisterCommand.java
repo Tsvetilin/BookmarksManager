@@ -4,15 +4,14 @@ import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.ResponseStatus;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.DIContainer;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandBase;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandType;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.PasswordHasherException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.Session;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.PasswordUtils;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.hasher.PasswordHasher;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 public class RegisterCommand extends CommandBase {
 
@@ -28,6 +27,11 @@ public class RegisterCommand extends CommandBase {
     @Override
     public Response execute() {
 
+        if (sessionStore.hasSession(session)) {
+            logger.logInfo("User tried to register when logged: " + username);
+            return new Response("Already logged in.", ResponseStatus.ERROR);
+        }
+
         if (context.users().any(user -> user.getUsername().equals(username))) {
             logger.logInfo("User tried to register existing username: " + username);
             return new Response("Username already exists.", ResponseStatus.ERROR);
@@ -42,7 +46,7 @@ public class RegisterCommand extends CommandBase {
 
         try {
             hashedPassword = DIContainer.request(PasswordHasher.class).hash(password);
-        } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
+        } catch (PasswordHasherException e) {
             String traceId = IdGenerator.generateId();
             logger.logError("Server error in register request. Trace id: " + traceId);
             logger.logException(e, traceId);
@@ -56,5 +60,10 @@ public class RegisterCommand extends CommandBase {
 
         logger.logInfo("User registered: " + username);
         return new Response("User registered successfully.", ResponseStatus.OK);
+    }
+
+    @Override
+    public CommandType getType() {
+        return CommandType.REGISTER;
     }
 }

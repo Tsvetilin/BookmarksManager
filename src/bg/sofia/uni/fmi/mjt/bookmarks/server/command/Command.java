@@ -14,4 +14,6 @@ public interface Command {
     Command addSessionContext(Session session);
 
     Command addLogger(Logger logger);
+
+    CommandType getType();
 }
