@@ -30,6 +30,7 @@ public class ImportFromChromeCommand extends AuthenticatedCommand {
                 .filter(x -> x.getName().equals(CHROME_GROUP))
                 .findFirst()
                 .orElse(new Group(IdGenerator.generateId(), CHROME_GROUP, user));
+
         if (user.getGroups().stream().noneMatch(x -> x == chromeGroup)) {
             context.groups().add(chromeGroup);
         }

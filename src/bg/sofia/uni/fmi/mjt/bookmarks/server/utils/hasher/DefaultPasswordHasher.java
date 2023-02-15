@@ -30,6 +30,10 @@ public class DefaultPasswordHasher implements PasswordHasher {
             String hexSalt = split[0];
             String hexHash = split[1];
 
+            if (hexSalt.length() % 2 == 1) {
+                hexSalt = "0" + hexSalt;
+            }
+
             byte[] salt = HexFormat.of().parseHex(hexSalt);
             PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, HASH_ITERATIONS, KEY_LENGTH);
             SecretKeyFactory skf = SecretKeyFactory.getInstance(ALGO_NAME);

@@ -2,43 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39a9bc9c-0414-4dc7-bc58-873737e21483" name="Changes" comment="Add tests">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/jsoup.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/mockito_core.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/mockito_junit_jupiter.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/exceptions/PasswordHasherException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/bg/sofia/uni/fmi/mjt/bookmarks/server/ServerOptionsTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/bg/sofia/uni/fmi/mjt/bookmarks/server/command/AuthenticatedCommandTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/bg/sofia/uni/fmi/mjt/bookmarks/server/command/CommandParserTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/bg/sofia/uni/fmi/mjt/bookmarks/server/command/UnauthenticatedCommandTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/bg/sofia/uni/fmi/mjt/bookmarks/server/external/UrlShortenerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/bg/sofia/uni/fmi/mjt/bookmarks/server/logging/LoggerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/bg/sofia/uni/fmi/mjt/bookmarks/server/persistence/repository/FileRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/bg/sofia/uni/fmi/mjt/bookmarks/client/chrome/ChromeServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/bg/sofia/uni/fmi/mjt/bookmarks/server/services/BookmarkServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/hasher/HasherTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookmarksManager.iml" beforeDir="false" afterPath="$PROJECT_DIR$/BookmarksManager.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/Command.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/CommandParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/CommandParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/account/LoginCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/account/LoginCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/account/LogoutCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/account/LogoutCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/account/RegisterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/account/RegisterCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/AddToCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/AddToCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/CleanupCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/CleanupCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/ImportFromChromeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/ImportFromChromeCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/ListByGroupCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/ListByGroupCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/ListCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/ListCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/NewGroupCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/NewGroupCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/RemoveFromCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/RemoveFromCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/SearchByTitleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/SearchByTitleCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/SearchCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/bookmarks/SearchCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/common/HelpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/common/HelpCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/common/UnknownCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/command/common/UnknownCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/exceptions/BookmarkValidationException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/exceptions/InvalidBookmarkException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/exceptions/InvalidBookmarkException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/exceptions/LoggerOperationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/exceptions/LoggerOperationException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/services/BookmarksService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/services/BookmarksService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/services/DefaultBookmarksService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/services/DefaultBookmarksService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/hasher/DefaultPasswordHasher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/hasher/DefaultPasswordHasher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/hasher/PasswordHasher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/hasher/PasswordHasher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/bg/sofia/uni/fmi/mjt/bookmarks/server/ServerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/bg/sofia/uni/fmi/mjt/bookmarks/server/command/AuthenticatedCommandTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/bg/sofia/uni/fmi/mjt/bookmarks/server/command/AuthenticatedCommandTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,9 +48,9 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_directory_selection": "C:/Users/cveti/Desktop/Java/Practice/BookmarksManager/test/bg/sofia/uni/fmi/mjt/bookmarks/server",
+    "last_directory_selection": "C:/Users/cveti/Desktop/Java/Practice/BookmarksManager/test/bg/sofia/uni/fmi/mjt/bookmarks",
     "last_opened_file_path": "C:/Users/cveti/Desktop/Java/checkstyle.xml",
-    "project.structure.last.edited": "Libraries",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "org.infernus.idea.checkstyle.CheckStyleConfigurable"
@@ -93,6 +63,9 @@
       <recent name="bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository" />
       <recent name="bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions" />
       <recent name="bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.co" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="bg.sofia.uni.fmi.mjt.bookmarks.server" />
     </key>
   </component>
   <component name="RunManager" selected="JUnit.All in BookmarksManager">
@@ -119,47 +92,47 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FileRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AuthenticatedCommandTest.testImportChromeCommandError" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BookmarksManager" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.*" />
+          <option name="PATTERN" value="bg.sofia.uni.fmi.mjt.bookmarks.server.command.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository" />
-      <option name="MAIN_CLASS_NAME" value="bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.FileRepositoryTest" />
+      <option name="PACKAGE_NAME" value="bg.sofia.uni.fmi.mjt.bookmarks.server.command" />
+      <option name="MAIN_CLASS_NAME" value="bg.sofia.uni.fmi.mjt.bookmarks.server.command.AuthenticatedCommandTest" />
+      <option name="METHOD_NAME" value="testImportChromeCommandError" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChromeServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BookmarksManager" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="bg.sofia.uni.fmi.mjt.bookmarks.client.chrome.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="bg.sofia.uni.fmi.mjt.bookmarks.client.chrome" />
+      <option name="MAIN_CLASS_NAME" value="bg.sofia.uni.fmi.mjt.bookmarks.client.chrome.ChromeServiceTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LoggerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="bg.sofia.uni.fmi.mjt.bookmarks in BookmarksManager" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BookmarksManager" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="bg.sofia.uni.fmi.mjt.bookmarks.server.logging.*" />
+          <option name="PATTERN" value="bg.sofia.uni.fmi.mjt.bookmarks.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="bg.sofia.uni.fmi.mjt.bookmarks.server.logging" />
-      <option name="MAIN_CLASS_NAME" value="bg.sofia.uni.fmi.mjt.bookmarks.server.logging.LoggerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UrlShortenerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="BookmarksManager" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="bg.sofia.uni.fmi.mjt.bookmarks.server.external.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="bg.sofia.uni.fmi.mjt.bookmarks.server.external" />
-      <option name="MAIN_CLASS_NAME" value="bg.sofia.uni.fmi.mjt.bookmarks.server.external.UrlShortenerTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="bg.sofia.uni.fmi.mjt.bookmarks" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -167,10 +140,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in BookmarksManager" />
-        <item itemvalue="JUnit.FileRepositoryTest" />
-        <item itemvalue="JUnit.LoggerTest" />
-        <item itemvalue="JUnit.UrlShortenerTest" />
         <item itemvalue="JUnit.AuthenticatedCommandTest" />
+        <item itemvalue="JUnit.ChromeServiceTest" />
+        <item itemvalue="JUnit.bg.sofia.uni.fmi.mjt.bookmarks in BookmarksManager" />
+        <item itemvalue="JUnit.AuthenticatedCommandTest.testImportChromeCommandError" />
       </list>
     </recent_temporary>
   </component>
@@ -182,7 +155,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1674469471195</updated>
-      <workItem from="1674469474561" duration="149876000" />
+      <workItem from="1674469474561" duration="153788000" />
     </task>
     <task id="LOCAL-00001" summary="Add main layout">
       <created>1674491477277</created>
@@ -324,7 +297,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676453153845</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Add tests">
+      <created>1676473292002</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1676473292002</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -398,19 +378,9 @@
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/server/utils/hasher/DefaultPasswordHasher.java</url>
-          <line>29</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/Client.java</url>
           <line>65</line>
           <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/bg/sofia/uni/fmi/mjt/bookmarks/client/chrome/ChromeService.java</url>
-          <line>28</line>
-          <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/test/bg/sofia/uni/fmi/mjt/bookmarks/server/command/UnauthenticatedCommandTest.java</url>
@@ -434,9 +404,12 @@
     <SUITE FILE_PATH="coverage/BookmarksManager$ServerTest.ic" NAME="ServerTest Coverage Results" MODIFIED="1676456225548" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>bg.sofia.uni.fmi.mjt.bookmarks.server.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/BookmarksManager$ChromeServiceTest.ic" NAME="ChromeServiceTest Coverage Results" MODIFIED="1676476264002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>bg.sofia.uni.fmi.mjt.bookmarks.client.chrome.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/BookmarksManager$CommandParserTest.ic" NAME="CommandParserTest Coverage Results" MODIFIED="1676457650552" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>bg.sofia.uni.fmi.mjt.bookmarks.server.command.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/BookmarksManager$All_in_BookmarksManager.ic" NAME="All in BookmarksManager Coverage Results" MODIFIED="1676473097109" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/BookmarksManager$All_in_BookmarksManager.ic" NAME="All in BookmarksManager Coverage Results" MODIFIED="1676477175996" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

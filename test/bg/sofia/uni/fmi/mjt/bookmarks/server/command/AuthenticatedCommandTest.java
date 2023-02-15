@@ -158,6 +158,42 @@ public class AuthenticatedCommandTest {
         verify(logger, times(1)).logInfo(any());
         assertEquals(ResponseStatus.OK, result.status(), "Invalid status");
     }
+
+    @Test
+    void testImportChromeCommandSuccessful() throws InvalidBookmarkException {
+        when(user.getGroups()).thenReturn(List.of(group));
+        when(user.getBookmarks()).thenReturn(List.of(bookmark));
+        when(bookmarksService.validateUrl(any())).thenReturn(false);
+
+        var result = executor.execute("import-from-chrome url", session);
+
+        verify(bookmarkRepository, times(1)).add(any());
+        verify(logger, times(0)).logInfo(any());
+        assertEquals(ResponseStatus.OK, result.status(), "Invalid status");
+    }
+
+
+    @Test
+    void testRemoveFromCommandSuccessful() {
+        when(user.getGroups()).thenReturn(List.of(group));
+        when(user.getBookmarks()).thenReturn(List.of(bookmark));
+
+        var result = executor.execute("remove-from " + NAME + " " + URL, session);
+
+        verify(bookmarkRepository, times(1)).remove(any());
+        verify(logger, times(1)).logInfo(any());
+        assertEquals(ResponseStatus.OK, result.status(), "Invalid status");
+    }
+
+    @Test
+    void testRemoveFromCommandNoGroup() {
+        when(user.getGroups()).thenReturn(new ArrayList<>());
+        when(user.getBookmarks()).thenReturn(List.of(bookmark));
+
+        var result = executor.execute("remove-from " + NAME + " " + URL, session);
+
+        verify(bookmarkRepository, times(0)).remove(any());
+        verify(logger, times(1)).logInfo(any());
+        assertEquals(ResponseStatus.ERROR, result.status(), "Invalid status");
+    }
 }
-/*
-    */
