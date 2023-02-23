@@ -1,6 +1,8 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.utils.hasher;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.PasswordHasherException;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.hasher.DefaultPasswordHasher;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.hasher.PasswordHasher;
 import org.junit.jupiter.api.Test;
 
 import java.security.SecureRandom;

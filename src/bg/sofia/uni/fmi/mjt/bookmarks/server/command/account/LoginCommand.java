@@ -7,21 +7,27 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandBase;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandType;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.PasswordHasherException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.Session;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.identity.IdGeneratorService;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.Session;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.hasher.PasswordHasher;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.hasher.PasswordHasher;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.SecureString;
 
 import java.util.Optional;
 
 public class LoginCommand extends CommandBase {
 
     private final String username;
-    private final String password;
+    private final SecureString password;
+    private final PasswordHasher hasher;
+    private final IdGeneratorService idGenerator;
 
-    public LoginCommand(String username, String password) {
+    public LoginCommand(String username, SecureString password) {
         this.username = username;
         this.password = password;
+
+        this.hasher = DIContainer.request(PasswordHasher.class);
+        this.idGenerator = DIContainer.request(IdGeneratorService.class);
 
         Nullable.throwIfAnyNull(username, password);
     }
@@ -44,12 +50,12 @@ public class LoginCommand extends CommandBase {
 
 
         try {
-            if (!DIContainer.request(PasswordHasher.class).verify(password, user.getPassword())) {
+            if (!hasher.verify(password, user.getPassword())) {
                 logger.logInfo("Invalid password when logging: " + username);
                 return new Response("Invalid username or password.", ResponseStatus.ERROR);
             }
         } catch (PasswordHasherException e) {
-            String traceId = IdGenerator.generateId();
+            String traceId = idGenerator.generateId();
             logger.logException(e, traceId);
             logger.logError("Server error on login request. Trace id: " + traceId);
             return new Response("Internal server error. Trace id: " + traceId, ResponseStatus.ERROR);

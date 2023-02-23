@@ -1,11 +1,11 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server;
 
-import bg.sofia.uni.fmi.mjt.bookmarks.server.external.BitlyUrlShortener;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.external.UrlShortener;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.DefaultLogger;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.Severity;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers.DefaultConsoleProvider;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers.DefaultFileProvider;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.external.BitlyUrlShortener;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.external.UrlShortener;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.DefaultLogger;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.Severity;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.providers.DefaultConsoleProvider;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.providers.DefaultFileProvider;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Group;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
@@ -14,10 +14,10 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.FileReposito
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.FileRepositoryOptions;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.BookmarksService;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.DefaultBookmarksService;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.DefaultSessionStore;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.datetime.DefaultDateTimeProvider;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.hasher.DefaultPasswordHasher;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.hasher.PasswordHasher;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.DefaultSessionStore;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.datetime.DefaultDateTimeProvider;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.hasher.DefaultPasswordHasher;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.hasher.PasswordHasher;
 
 import java.net.http.HttpClient;
 import java.security.SecureRandom;

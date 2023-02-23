@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server;
 
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Service;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.Service;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;

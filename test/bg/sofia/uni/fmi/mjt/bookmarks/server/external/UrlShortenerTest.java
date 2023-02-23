@@ -1,6 +1,9 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.external;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.UrlShortenerException;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.external.BitlyUrlShortener;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.external.ShortUrlResult;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.external.UrlShortener;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

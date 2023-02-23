@@ -7,21 +7,26 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandBase;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandType;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.PasswordHasherException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.Session;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.identity.IdGeneratorService;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.password.PasswordValidatorService;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.Session;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.PasswordUtils;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.hasher.PasswordHasher;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.hasher.PasswordHasher;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.SecureString;
 
 public class RegisterCommand extends CommandBase {
-
-    //TODO: Sensitive data - String -> Char array
     private final String username;
-    private final String password;
+    private final SecureString password;
+    private final PasswordValidatorService passwordValidatorService;
+    private final IdGeneratorService idGenerator;
 
-    public RegisterCommand(String username, String password) {
+    public RegisterCommand(String username, SecureString password) {
         this.username = username;
         this.password = password;
+
+        this.passwordValidatorService = DIContainer.request(PasswordValidatorService.class);
+        this.idGenerator = DIContainer.request(IdGeneratorService.class);
+
         Nullable.throwIfAnyNull(username, password);
     }
 
@@ -38,9 +43,10 @@ public class RegisterCommand extends CommandBase {
             return new Response("Username already exists.", ResponseStatus.ERROR);
         }
 
-        if (!PasswordUtils.validate(password)) {
+        if (!passwordValidatorService.validate(password)) {
             logger.logInfo("User tried to register with invalid password: " + username);
-            return new Response("Invalid password! " + PasswordUtils.getPasswordRequirements(), ResponseStatus.ERROR);
+            return new Response("Invalid password! " + passwordValidatorService.getPasswordRequirements(),
+                ResponseStatus.ERROR);
         }
 
         String hashedPassword;
@@ -48,13 +54,13 @@ public class RegisterCommand extends CommandBase {
         try {
             hashedPassword = DIContainer.request(PasswordHasher.class).hash(password);
         } catch (PasswordHasherException e) {
-            String traceId = IdGenerator.generateId();
+            String traceId = idGenerator.generateId();
             logger.logError("Server error in register request. Trace id: " + traceId);
             logger.logException(e, traceId);
             return new Response("Internal server error. Trace id: " + traceId, ResponseStatus.ERROR);
         }
 
-        User user = new User(IdGenerator.generateId(), username, hashedPassword);
+        User user = new User(idGenerator.generateId(), username, hashedPassword);
 
         context.users().add(user);
         sessionStore.register(new Session(session.key(), user));

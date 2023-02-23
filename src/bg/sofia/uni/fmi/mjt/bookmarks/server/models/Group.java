@@ -3,8 +3,8 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.models;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.Entity;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
-import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,7 +32,7 @@ public class Group extends Entity<String> {
     }
 
     public List<Bookmark> getBookmarks() {
-        return bookmarks;
+        return Collections.unmodifiableList(bookmarks);
     }
 
     public List<Bookmark> bookmarksSynchronizer() {

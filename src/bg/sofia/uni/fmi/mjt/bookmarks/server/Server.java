@@ -3,10 +3,11 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.ResponseStatus;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandExecutor;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.Logger;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.identity.IdGeneratorService;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.Logger;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.DatabaseContext;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.Session;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.Session;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.SecureString;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -25,6 +26,7 @@ public class Server implements Runnable {
     private final DatabaseContext context;
     private final ByteBuffer messageBuffer;
     private final CommandExecutor commandExecutor;
+    private final IdGeneratorService idGenerator;
     private boolean isStarted = true;
 
     public Server(ServerOptions options) {
@@ -32,6 +34,7 @@ public class Server implements Runnable {
         this.host = options.host();
         this.logger = options.logger();
         this.context = options.context();
+        this.idGenerator = options.idGenerator();
         this.messageBuffer = ByteBuffer.allocate(options.bufferSize());
         this.commandExecutor = CommandExecutor.configure(options.sessionStore(), options.context(), options.logger());
     }
@@ -78,7 +81,7 @@ public class Server implements Runnable {
                         }
                     } catch (IOException e) {
                         disconnect(key);
-                        String traceId = IdGenerator.generateId();
+                        String traceId = idGenerator.generateId();
                         logger.logError(
                             "There is a problem with the server socket: " + e.getMessage() + ". Trace id: " + traceId);
                         logger.logException(e, traceId);
@@ -98,7 +101,7 @@ public class Server implements Runnable {
             selector.close();
 
         } catch (IOException e) {
-            String traceId = IdGenerator.generateId();
+            String traceId = idGenerator.generateId();
             logger.logError(
                 "There is a problem with the server socket: " + e.getMessage() + ". Trace id: " + traceId);
             logger.logException(e, traceId);
@@ -116,31 +119,31 @@ public class Server implements Runnable {
     private void handleKeyIsReadable(SelectionKey key, ByteBuffer buffer) throws IOException {
         SocketChannel socketChannel = (SocketChannel) key.channel();
         buffer.flip();
+        // TODO handle properly
         String message = new String(buffer.array(), 0, buffer.limit()).trim();
-        logger.logInfo("Message received from client " + socketChannel.getRemoteAddress() + " : " + message);
+        logger.logInfo("Message received from client " + socketChannel.getRemoteAddress());
         var commands = message.split(System.lineSeparator());
         for (var cmd : commands) {
             Response response;
             try {
-                response = commandExecutor.execute(cmd, new Session(socketChannel, null));
+                response = commandExecutor.execute(new SecureString(), new Session(socketChannel, null));
             } catch (Exception e) {
-                String traceId = IdGenerator.generateId();
+                String traceId = idGenerator.generateId();
                 logger.logError(
                     "There is a problem with the server socket: " + e.getMessage() + ". Trace id: " + traceId);
                 logger.logException(e, traceId);
                 response = new Response("Internal server error. Trace id: " + traceId, ResponseStatus.ERROR);
             }
 
-            var splitResponse = response.getDataMessage().split(System.lineSeparator());
-            for (var responseMsg : splitResponse) {
-                buffer.clear();
-                buffer.put((responseMsg + System.lineSeparator()).getBytes());
-                buffer.flip();
-                socketChannel.write(buffer);
-                logger.logInfo(
-                    "Response sent to client " + socketChannel.getRemoteAddress() + " : " +
-                        response.getDataMessage().trim());
-            }
+            String responseMsg = null;// TODO: serialize response and send all
+
+            buffer.clear();
+            buffer.put((responseMsg + System.lineSeparator()).getBytes());
+            buffer.flip();
+            socketChannel.write(buffer);
+            logger.logInfo(
+                "Response sent to client " + socketChannel.getRemoteAddress() + " : " +
+                    response.getDataMessage().trim());
         }
     }
 

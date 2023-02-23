@@ -2,18 +2,21 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.command.bookmarks;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.ResponseStatus;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.DIContainer;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.AuthenticatedCommand;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandType;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Group;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.identity.IdGeneratorService;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
 public class NewGroupCommand extends AuthenticatedCommand {
 
     private final String group;
+    private final IdGeneratorService idGenerator;
 
     public NewGroupCommand(String group) {
         this.group = group;
+        this.idGenerator = DIContainer.request(IdGeneratorService.class);
         Nullable.throwIfNull(group);
     }
 
@@ -25,7 +28,7 @@ public class NewGroupCommand extends AuthenticatedCommand {
             return new Response("Group already exits.", ResponseStatus.ERROR);
         }
 
-        context.groups().add(new Group(IdGenerator.generateId(), group, user));
+        context.groups().add(new Group(idGenerator.generateId(), group, user));
         logger.logInfo("Created group " + group + " for user " + user.getUsername());
 
         return new Response("Successfully created group.", ResponseStatus.OK);

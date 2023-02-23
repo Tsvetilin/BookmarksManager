@@ -1,10 +1,11 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.command;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.Response;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.Logger;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.Logger;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.DatabaseContext;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.Session;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.SessionStore;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.Session;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.SessionStore;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.SecureString;
 
 public class CommandExecutor {
 
@@ -23,8 +24,8 @@ public class CommandExecutor {
     }
 
 
-    public Response execute(String cmd, Session session) {
-        return CommandParser.parse(cmd).addDependencies(sessionStore, context).addSessionContext(session)
+    public Response execute(SecureString request, Session session) {
+        return CommandParser.parse(request).addDependencies(sessionStore, context).addSessionContext(session)
             .addLogger(logger).execute();
     }
 }

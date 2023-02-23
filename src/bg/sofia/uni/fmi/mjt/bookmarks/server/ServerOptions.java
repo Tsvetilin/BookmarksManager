@@ -1,14 +1,13 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server;
 
-import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.StopWordsException;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.DefaultLogger;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.Logger;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.identity.IdGeneratorService;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.DefaultLogger;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.Logger;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.DatabaseContext;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.DefaultSessionStore;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.SessionStore;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.DefaultSessionStore;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.SessionStore;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Service;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Stopwords;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.Service;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -47,11 +46,7 @@ public class ServerOptions {
             DIContainer.register(service.getKey(), service.getValue());
         }
 
-        try {
-            Stopwords.load();
-        } catch (StopWordsException e) {
-            throw new RuntimeException(e);
-        }
+        //TODO load stopwords
     }
 
     public static ServerOptionsBuilder create(int port) {
@@ -80,6 +75,10 @@ public class ServerOptions {
 
     public SessionStore sessionStore() {
         return sessionStore;
+    }
+
+    public IdGeneratorService idGenerator() {
+        return null;
     }
 
     public static class ServerOptionsBuilder {

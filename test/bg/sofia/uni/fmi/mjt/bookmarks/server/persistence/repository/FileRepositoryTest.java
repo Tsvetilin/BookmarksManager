@@ -1,7 +1,7 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.serialize.Serializer;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.serialize.Serializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

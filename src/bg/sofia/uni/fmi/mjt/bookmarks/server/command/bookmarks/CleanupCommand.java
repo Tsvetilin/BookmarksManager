@@ -7,8 +7,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.command.AuthenticatedCommand;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandType;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.InvalidBookmarkException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.services.BookmarksService;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.bookmarks.BookmarksService;
 
 public class CleanupCommand extends AuthenticatedCommand {
 

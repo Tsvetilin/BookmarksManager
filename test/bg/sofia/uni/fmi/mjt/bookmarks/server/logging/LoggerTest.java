@@ -1,9 +1,12 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server.logging;
 
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.LoggerOperationException;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers.ConsoleProvider;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.providers.FileProvider;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.datetime.DateTimeProvider;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.DefaultLogger;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.Logger;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.Severity;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.providers.ConsoleProvider;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.providers.FileProvider;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.datetime.DateTimeProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

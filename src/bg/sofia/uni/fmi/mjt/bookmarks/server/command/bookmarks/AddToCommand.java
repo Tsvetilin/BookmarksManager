@@ -8,7 +8,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandType;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.InvalidBookmarkException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.BookmarksService;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.IdGenerator;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.IdGenerator;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
 public class AddToCommand extends AuthenticatedCommand {

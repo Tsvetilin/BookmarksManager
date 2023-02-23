@@ -1,9 +1,9 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.server;
 
-import bg.sofia.uni.fmi.mjt.bookmarks.server.external.UrlShortener;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.logging.Logger;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.external.UrlShortener;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.Logger;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.FileDatabaseContext;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.sessions.SessionStore;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.SessionStore;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
