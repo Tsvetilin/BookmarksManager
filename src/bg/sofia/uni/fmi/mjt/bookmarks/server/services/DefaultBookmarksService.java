@@ -55,6 +55,7 @@ public class DefaultBookmarksService implements BookmarksService {
             }
         }
 
+        // TODO: extract as service
         Document htmlDocument;
         try {
             htmlDocument = Jsoup.connect(url).get();

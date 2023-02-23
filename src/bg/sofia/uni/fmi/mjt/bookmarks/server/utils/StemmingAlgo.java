@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class StemmingAlgo {
+    // TODO: make strategy
     private static final Set<String> SUFFIX = new HashSet<>();
 
     static {

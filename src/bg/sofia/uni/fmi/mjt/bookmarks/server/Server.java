@@ -104,6 +104,7 @@ public class Server implements Runnable {
             logger.logException(e, traceId);
         }
 
+        // TODO: handle log on termination
         context.shutdown();
         logger.logInfo("Server stopped");
     }

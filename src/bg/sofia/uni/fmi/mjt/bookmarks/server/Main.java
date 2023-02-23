@@ -57,8 +57,9 @@ public class Main {
                         Group.class)
                 )
             )
+            // TODO: handle config file for api keys and sensitive info / env variables
             .addService(PasswordHasher.class, new DefaultPasswordHasher(new SecureRandom()))
-            .addService(UrlShortener.class, new BitlyUrlShortener(HttpClient.newHttpClient(), "API KEY HERE"))
+            .addService(UrlShortener.class, new BitlyUrlShortener(HttpClient.newHttpClient(), "AUTH TOKEN"))
             .addService(BookmarksService.class, new DefaultBookmarksService(HttpClient.newHttpClient()))
             .build();
 

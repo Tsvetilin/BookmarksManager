@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.utils;
 import java.util.regex.Pattern;
 
 public class PasswordUtils {
+    // TODO: Add to service / strategy
     private static final String PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!.dsa@$%^&*-]).{8,}$";
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
     private static final String PASSWORD_REQUIREMENTS =

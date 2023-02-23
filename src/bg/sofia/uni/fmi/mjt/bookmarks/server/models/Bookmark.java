@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+// TODO: better synchronizers
 public class Bookmark extends Entity<String> {
     private final String url;
     private final String shortened;

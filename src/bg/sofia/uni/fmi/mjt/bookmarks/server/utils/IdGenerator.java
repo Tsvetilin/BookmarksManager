@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class IdGenerator {
+    // TODO: Singleton
     private static final Set<String> IDS;
 
     static {

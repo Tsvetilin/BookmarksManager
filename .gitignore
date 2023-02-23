@@ -27,3 +27,9 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Project Specific ###
+clientErrors
+db
+logs
+BookmarksManager.zip

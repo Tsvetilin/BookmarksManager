@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Stopwords {
-
+// TODO: make service
     private static final String STOPWORDS_FILE_PATH = "resources/stopwords.txt";
     private static final Set<String> STOPWORDS;
     private static boolean isLoaded;

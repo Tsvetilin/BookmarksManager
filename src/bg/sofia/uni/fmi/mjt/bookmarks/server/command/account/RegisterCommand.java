@@ -15,6 +15,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.hasher.PasswordHasher;
 
 public class RegisterCommand extends CommandBase {
 
+    //TODO: Sensitive data - String -> Char array
     private final String username;
     private final String password;
 

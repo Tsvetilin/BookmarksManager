@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DefaultSessionStore implements SessionStore {
-
+// Service
     private final Map<SocketChannel, User> sessions;
 
     public DefaultSessionStore() {

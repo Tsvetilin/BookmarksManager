@@ -11,6 +11,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.HexFormat;
 
 public class DefaultPasswordHasher implements PasswordHasher {
+    // TODO: Strategy with algo
     private static final int SALT_SIZE = 16;
     private static final int HASH_ITERATIONS = 2000;
     private static final int KEY_LENGTH = 512;
