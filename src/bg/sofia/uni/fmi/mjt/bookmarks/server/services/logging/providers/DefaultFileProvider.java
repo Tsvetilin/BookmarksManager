@@ -16,7 +16,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class DefaultFileProvider implements FileProvider {
-    //TODO: max file size check
     private static final String DEFAULT_LOG_FILE_PATH = "./logs/common/";
     private static final String DEFAULT_ERROR_FILE_PATH = "./logs/errors/";
     private final String logFilePath;

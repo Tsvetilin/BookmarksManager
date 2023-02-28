@@ -12,7 +12,6 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.services.identity.IdGeneratorServic
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
 public class AddToCommand extends AuthenticatedCommand {
-    // TODO: Resource bundles - const messages
     private final String group;
     private final String url;
     private final boolean isShortened;

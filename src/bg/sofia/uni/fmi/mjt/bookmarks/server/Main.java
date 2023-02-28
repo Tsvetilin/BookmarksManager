@@ -75,14 +75,14 @@ public class Main {
             .addSingletonService(HasherAlgorithmStrategy.class, new SHA1HasherStrategy(new SecureRandom()))
             .addSingletonService(StopwordsService.class, new DefaultStopwordsService())
             .addSingletonService(StemmingService.class, new DefaultStemmingService(new SuffixStrippingStrategy()))
-            .addSingletonService(IdGeneratorService.class,new DefaultIdGeneratorService(new UUIDGeneratorStrategy()))
+            .addSingletonService(IdGeneratorService.class, new DefaultIdGeneratorService(new UUIDGeneratorStrategy()))
             .addSingletonService(HtmlExtractorService.class, new DefaultHtmlExtractorService())
             .addTransientService(PasswordHasher.class, DefaultPasswordHasher.class,
                 new Class[] {HasherAlgorithmStrategy.class})
             .addSingletonService(UrlShortener.class, new BitlyUrlShortener(HttpClient.newHttpClient(), new Gson(),
                 System.getenv(BITLY_AUTH_KEY_ENV_VAR_NAME)))
             .addTransientService(BookmarksService.class, DefaultBookmarksService.class, new Class[] {HttpClient.class,
-                StopwordsService.class,StemmingService.class , IdGeneratorService.class, UrlShortener.class})
+                StopwordsService.class, StemmingService.class, IdGeneratorService.class, UrlShortener.class})
             .build();
 
         Thread serverThread = null;
@@ -141,13 +141,13 @@ public class Main {
         }
     }
 
-        private static void printCommands () {
-            System.out.println("Available commands: ");
-            System.out.println("start : starts the server");
-            System.out.println("stop  : stops the server");
-            System.out.println("exit  : exits the server console");
-            System.out.println();
-        }
-
-
+    private static void printCommands() {
+        System.out.println("Available commands: ");
+        System.out.println("start : starts the server");
+        System.out.println("stop  : stops the server");
+        System.out.println("exit  : exits the server console");
+        System.out.println();
     }
+
+
+}
