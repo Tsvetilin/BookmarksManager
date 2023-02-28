@@ -3,6 +3,8 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.utils.hasher;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.PasswordHasherException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.hasher.DefaultPasswordHasher;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.hasher.PasswordHasher;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.hasher.strategy.SHA1HasherStrategy;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.SecureString;
 import org.junit.jupiter.api.Test;
 
 import java.security.SecureRandom;
@@ -16,17 +18,17 @@ public class HasherTest {
 
     String password = "Abcdef1.";
 
-    PasswordHasher hasher = new DefaultPasswordHasher(new SecureRandom());
+    PasswordHasher hasher = new DefaultPasswordHasher(new SHA1HasherStrategy(new SecureRandom()));
 
     @Test
     void testVerify() throws PasswordHasherException {
-        assertTrue(hasher.verify(password, passwordHash),
+        assertTrue(hasher.verify(new SecureString(password), passwordHash),
             "Passwords should match.");
     }
 
     @Test
     void testHash() throws PasswordHasherException {
-        assertTrue(hasher.verify(password, hasher.hash(password)), "Invalid hashing");
+        assertTrue(hasher.verify(new SecureString(password), hasher.hash(new SecureString(password))), "Invalid hashing");
     }
 
 

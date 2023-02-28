@@ -135,7 +135,7 @@ public class Server implements Runnable {
                 response = new Response("Internal server error. Trace id: " + traceId, ResponseStatus.ERROR);
             }
 
-            String responseMsg = null;// TODO: serialize response and send all
+            String responseMsg = null; // TODO: serialize response and send all
 
             buffer.clear();
             buffer.put((responseMsg + System.lineSeparator()).getBytes());

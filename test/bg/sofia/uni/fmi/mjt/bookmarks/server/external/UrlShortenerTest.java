@@ -25,7 +25,7 @@ public class UrlShortenerTest {
 
     HttpClient client = mock(HttpClient.class);
     HttpResponse<String> response = mock(HttpResponse.class);
-    UrlShortener shortener = new BitlyUrlShortener(client);
+    UrlShortener shortener = new BitlyUrlShortener(client, new Gson(), "token");
     ShortUrlResult result = new ShortUrlResult("now", "id", "url");
 
     @BeforeEach

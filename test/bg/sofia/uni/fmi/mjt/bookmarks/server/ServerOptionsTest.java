@@ -25,14 +25,14 @@ public class ServerOptionsTest {
             .addSessionStore(sessionStore)
             .setHost("host")
             .setBufferSize(1024)
-            .addService(UrlShortener.class, service)
+            .addSingletonService(UrlShortener.class, service)
             .build();
 
-        assertEquals(context,options.context(),"invalid option saved.");
-        assertEquals(logger,options.logger(),"invalid option saved.");
-        assertEquals(sessionStore,options.sessionStore(),"invalid option saved.");
-        assertEquals("host",options.host(),"invalid option saved.");
-        assertEquals(8080,options.port(),"invalid option saved.");
-        assertEquals(1024,options.bufferSize(),"invalid option saved.");
+        assertEquals(context, options.context(), "invalid option saved.");
+        assertEquals(logger, options.logger(), "invalid option saved.");
+        assertEquals(sessionStore, options.sessionStore(), "invalid option saved.");
+        assertEquals("host", options.host(), "invalid option saved.");
+        assertEquals(8080, options.port(), "invalid option saved.");
+        assertEquals(1024, options.bufferSize(), "invalid option saved.");
     }
 }

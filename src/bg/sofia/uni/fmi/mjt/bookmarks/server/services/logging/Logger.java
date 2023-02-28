@@ -7,7 +7,8 @@ public interface Logger extends Service {
 
     void logWarning(String message);
 
-    // TODO: add overloaded with exception
+    void logError(String message, Exception e, String traceId);
+
     void logError(String message);
 
     void logException(Exception e, String id);

@@ -8,8 +8,11 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.DefaultSessionSto
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.SessionStore;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.Service;
+import com.google.gson.Gson;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
+import java.net.http.HttpClient;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +30,8 @@ public class ServerOptions {
     private final SessionStore sessionStore;
 
     private static final int ALLOWED_PORT_LB = 1000;
+    private final HttpClient httpClient;
+    private final Gson gson;
 
     private ServerOptions(ServerOptionsBuilder builder) {
         DIContainer.clear();
@@ -37,16 +42,22 @@ public class ServerOptions {
         this.bufferSize = builder.bufferSize > 0 ? builder.bufferSize : DEFAULT_BUFFER_SIZE;
         this.host = Nullable.orDefault(builder.host, DEFAULT_SERVER_HOST);
         this.context = builder.context;
+        this.httpClient = Nullable.orDefault(builder.httpClient, HttpClient.newHttpClient());
         this.logger = Nullable.orDefault(builder.logger, DefaultLogger.getDefaultLogger());
         this.sessionStore = Nullable.orDefault(builder.sessionStore, new DefaultSessionStore());
-        DIContainer.register(DatabaseContext.class, context);
-        DIContainer.register(Logger.class, logger);
-        DIContainer.register(SessionStore.class, sessionStore);
-        for (var service : builder.serviceList.entrySet()) {
-            DIContainer.register(service.getKey(), service.getValue());
+        this.gson = Nullable.orDefault(builder.gson, new Gson());
+        DIContainer.registerSingleton(DatabaseContext.class, context);
+        DIContainer.registerSingleton(Logger.class, logger);
+        DIContainer.registerSingleton(SessionStore.class, sessionStore);
+        DIContainer.registerUnchecked(HttpClient.class, httpClient);
+        DIContainer.registerUnchecked(Gson.class, gson);
+        for (var service : builder.serviceListSingleton.entrySet()) {
+            DIContainer.registerSingleton(service.getKey(), service.getValue());
         }
 
-        //TODO load stopwords
+        for (var service : builder.serviceListTransient.entrySet()) {
+            DIContainer.registerTransient(service.getKey(), service.getValue().getKey(), service.getValue().getValue());
+        }
     }
 
     public static ServerOptionsBuilder create(int port) {
@@ -89,12 +100,16 @@ public class ServerOptions {
         private DatabaseContext context;
         private Logger logger;
         private SessionStore sessionStore;
-        private final Map<Type, Service> serviceList;
+        private final Map<Type, Service> serviceListSingleton;
+        private final Map<Type, Map.Entry<Type, Class[]>> serviceListTransient;
+        private HttpClient httpClient;
+        private Gson gson;
 
         private ServerOptionsBuilder(int port) {
             this.port = port;
 
-            this.serviceList = new HashMap<>();
+            this.serviceListSingleton = new HashMap<>();
+            this.serviceListTransient = new HashMap<>();
         }
 
         public ServerOptionsBuilder setHost(String host) {
@@ -122,8 +137,24 @@ public class ServerOptions {
             return this;
         }
 
-        public ServerOptionsBuilder addService(Type type, Service service) {
-            this.serviceList.put(type, service);
+        public ServerOptionsBuilder addSingletonService(Type type, Service service) {
+            this.serviceListSingleton.put(type, service);
+            return this;
+        }
+
+
+        public ServerOptionsBuilder addTransientService(Type registerType, Type implementationType, Class[] typeArgs) {
+            this.serviceListTransient.put(registerType, Map.entry(implementationType, typeArgs));
+            return this;
+        }
+
+        public ServerOptionsBuilder addHttpClient(HttpClient httpClient) {
+            this.httpClient = httpClient;
+            return this;
+        }
+
+        public ServerOptionsBuilder addSerializer(Gson gson) {
+            this.gson = gson;
             return this;
         }
 

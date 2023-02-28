@@ -10,6 +10,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.Repository;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.Session;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.SessionStore;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.hasher.PasswordHasher;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.SecureString;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,18 +44,18 @@ public class UnauthenticatedCommandTest {
     void setup() {
         when(context.users()).thenReturn(userRepository);
         DIContainer.clear();
-        DIContainer.register(PasswordHasher.class, passwordHasher);
+        DIContainer.registerUnchecked(PasswordHasher.class, passwordHasher);
     }
 
     @Test
     void testUnknownCommand() {
-        var result = executor.execute("some rnd cmd", session);
+        var result = executor.execute(new SecureString("some rnd cmd"), session);
         assertEquals(ResponseStatus.ERROR, result.status(), "Invalid status");
     }
 
     @Test
     void testHelpCommand() {
-        var result = executor.execute("help", session);
+        var result = executor.execute(new SecureString("help"), session);
         assertEquals(ResponseStatus.OK, result.status(), "Invalid status");
     }
 
@@ -64,7 +65,7 @@ public class UnauthenticatedCommandTest {
         when(userRepository.find(any())).thenReturn(Optional.of(user));
         when(passwordHasher.verify(any(), any())).thenReturn(true);
 
-        var result = executor.execute("login username password", session);
+        var result = executor.execute(new SecureString("login username password"), session);
 
         verify(sessionStore, times(1)).register(any());
         verify(passwordHasher, times(1)).verify(any(), any());
@@ -77,7 +78,7 @@ public class UnauthenticatedCommandTest {
         when(sessionStore.hasSession(session)).thenReturn(false);
         when(userRepository.find(any())).thenReturn(Optional.empty());
 
-        var result = executor.execute("login username password", session);
+        var result = executor.execute(new SecureString("login username password"), session);
 
         verify(sessionStore, times(0)).register(any());
         verify(passwordHasher, times(0)).verify(any(), any());
@@ -89,7 +90,7 @@ public class UnauthenticatedCommandTest {
     void testLoginCommandHasSession() throws PasswordHasherException {
         when(sessionStore.hasSession(session)).thenReturn(true);
 
-        var result = executor.execute("login username password", session);
+        var result = executor.execute(new SecureString("login username password"), session);
 
         verify(sessionStore, times(0)).register(any());
         verify(passwordHasher, times(0)).verify(any(), any());
@@ -104,7 +105,7 @@ public class UnauthenticatedCommandTest {
         when(userRepository.find(any())).thenReturn(Optional.of(user));
         when(passwordHasher.verify(any(), any())).thenReturn(false);
 
-        var result = executor.execute("login username password", session);
+        var result = executor.execute(new SecureString("login username password"), session);
 
         verify(sessionStore, times(0)).register(any());
         verify(passwordHasher, times(1)).verify(any(), any());
@@ -118,7 +119,7 @@ public class UnauthenticatedCommandTest {
         when(userRepository.find(any())).thenReturn(Optional.of(user));
         when(passwordHasher.verify(any(), any())).thenThrow(PasswordHasherException.class);
 
-        var result = executor.execute("login username password", session);
+        var result = executor.execute(new SecureString("login username password"), session);
 
         verify(sessionStore, times(0)).register(any());
         verify(passwordHasher, times(1)).verify(any(), any());
@@ -133,7 +134,7 @@ public class UnauthenticatedCommandTest {
         when(sessionStore.hasSession(session)).thenReturn(true);
         when(sessionStore.getUser(session)).thenReturn(user);
 
-        var result = executor.execute("logout", session);
+        var result = executor.execute(new SecureString("logout"), session);
 
         verify(sessionStore, times(1)).remove(any());
         verify(logger, times(1)).logInfo(any());
@@ -144,7 +145,7 @@ public class UnauthenticatedCommandTest {
     void testLogoutFail() {
         when(sessionStore.hasSession(session)).thenReturn(false);
 
-        var result = executor.execute("logout", session);
+        var result = executor.execute(new SecureString("logout"), session);
 
         verify(sessionStore, times(0)).remove(any());
         verify(logger, times(1)).logInfo(any());
@@ -157,7 +158,7 @@ public class UnauthenticatedCommandTest {
         when(userRepository.any(any())).thenReturn(false);
         when(passwordHasher.hash(any())).thenReturn("hashedpass");
 
-        var result = executor.execute("register username Abcdef1.", session);
+        var result = executor.execute(new SecureString("register username Abcdef1."), session);
 
         verify(sessionStore, times(1)).register(any());
         verify(userRepository, times(1)).add(any());
@@ -170,7 +171,7 @@ public class UnauthenticatedCommandTest {
     void testRegisterCommandUserLogged() throws PasswordHasherException {
         when(sessionStore.hasSession(session)).thenReturn(true);
 
-        var result = executor.execute("register username Abcdef1.", session);
+        var result = executor.execute(new SecureString("register username Abcdef1."), session);
 
         verify(sessionStore, times(0)).register(any());
         verify(userRepository, times(0)).add(any());
@@ -185,7 +186,7 @@ public class UnauthenticatedCommandTest {
         when(userRepository.any(any())).thenReturn(true);
         when(passwordHasher.hash(any())).thenReturn("hashedpass");
 
-        var result = executor.execute("register username Abcdef1.", session);
+        var result = executor.execute(new SecureString("register username Abcdef1."), session);
 
         verify(sessionStore, times(0)).register(any());
         verify(userRepository, times(0)).add(any());
@@ -200,7 +201,7 @@ public class UnauthenticatedCommandTest {
         when(userRepository.any(any())).thenReturn(true);
         when(passwordHasher.hash(any())).thenReturn("hashedpass");
 
-        var result = executor.execute("register username invalidPassword", session);
+        var result = executor.execute(new SecureString("register username invalidPassword"), session);
 
         verify(sessionStore, times(0)).register(any());
         verify(userRepository, times(0)).add(any());
@@ -215,7 +216,7 @@ public class UnauthenticatedCommandTest {
         when(userRepository.any(any())).thenReturn(false);
         when(passwordHasher.hash(any())).thenThrow(PasswordHasherException.class);
 
-        var result = executor.execute("register username Abcdef1.", session);
+        var result = executor.execute(new SecureString("register username Abcdef1."), session);
 
         verify(sessionStore, times(0)).register(any());
         verify(userRepository, times(0)).add(any());

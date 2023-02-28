@@ -27,10 +27,12 @@ public class Client extends Thread {
 
     private final String host;
     private final int port;
+    private final ChromeService chromeService;
 
-    public Client(String host, int port) {
+    public Client(String host, int port, ChromeService chromeService) {
         this.host = host;
         this.port = port;
+        this.chromeService = chromeService;
     }
 
     @Override
@@ -63,8 +65,8 @@ public class Client extends Thread {
 
                 if (IMPORT_CHROME_COMMAND.equalsIgnoreCase(command)) {
                     try {
-                        command = ChromeService
-                            .getBookmarks()
+                        command = chromeService
+                            .getBookmarks(chromeService.getFileReader())
                             .stream()
                             .map(x -> IMPORT_CHROME_COMMAND + " " + x)
                             .filter(x -> x.getBytes().length < MAX_CMD_LENGTH)

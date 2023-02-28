@@ -38,20 +38,13 @@ public class FileRepository<K, T extends Entity<K>> extends Observable<T> implem
 
     @Override
     public void load() {
-        // TODO: unnecessaty read all lines  - just pass stream
         table.clear();
         try (var reader = new BufferedReader(options.reader())) {
-            var json = reader.lines().collect(Collectors.joining(System.lineSeparator()));
-            if (json.isEmpty() || json.isBlank()) {
-                return;
-            }
-
             table.putAll(
                 options
                     .serializer()
-                    .deserialize(json, TypeToken.getParameterized(Map.class, keyType, valueType).getType())
+                    .deserialize(reader, TypeToken.getParameterized(Map.class, keyType, valueType).getType())
             );
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

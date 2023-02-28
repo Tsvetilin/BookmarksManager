@@ -11,7 +11,7 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.HexFormat;
 
-public class SHA1HasherStrategy implements HasherAlgorithmStrategy{
+public class SHA1HasherStrategy implements HasherAlgorithmStrategy {
 
     private static final int SALT_SIZE = 16;
     private static final int HASH_ITERATIONS = 2000;

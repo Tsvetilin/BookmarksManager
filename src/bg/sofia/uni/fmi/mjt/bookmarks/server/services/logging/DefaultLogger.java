@@ -49,6 +49,12 @@ public class DefaultLogger implements Logger {
         log(Severity.WARN, message);
     }
 
+    @Override
+    public void logError(String message, Exception e, String traceId) {
+        logError((message));
+        logException(e, traceId);
+    }
+
 
     @Override
     public void logError(String message) {

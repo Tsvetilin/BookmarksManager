@@ -4,10 +4,16 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.DIContainer;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.InvalidBookmarkException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.StopWordsException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.UrlShortenerException;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.bookmarks.BookmarksService;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.bookmarks.DefaultBookmarksService;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.external.ShortUrlResult;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.external.UrlShortener;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Group;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.htmlextractor.HtmlExtractorService;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.identity.IdGeneratorService;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.stemming.StemmingService;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.stopwords.StopwordsService;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,19 +33,24 @@ import static org.mockito.Mockito.when;
 public class BookmarkServiceTest {
 
     HttpClient client = mock(HttpClient.class);
+    StopwordsService stopwordsService = mock(StopwordsService.class);
+    StemmingService stemmingService = mock(StemmingService.class);
+    IdGeneratorService idGeneratorService = mock(IdGeneratorService.class);
+    HtmlExtractorService extractorService = mock(HtmlExtractorService.class);
     HttpResponse<String> response = mock(HttpResponse.class);
     UrlShortener shortener = mock(UrlShortener.class);
     User user = mock(User.class);
     Group group = mock(Group.class);
     ShortUrlResult result = new ShortUrlResult("now", "id", "url");
 
-    BookmarksService service = new DefaultBookmarksService(client);
+    BookmarksService service =
+        new DefaultBookmarksService(client, stopwordsService, stemmingService, idGeneratorService, shortener,
+            extractorService);
 
     @BeforeEach
-    void setup() throws IOException, InterruptedException, StopWordsException {
-        Stopwords.load();
+    void setup() throws IOException, InterruptedException {
         DIContainer.clear();
-        DIContainer.register(UrlShortener.class, shortener);
+        DIContainer.registerUnchecked(UrlShortener.class, shortener);
         when(client.send(any(HttpRequest.class), eq(HttpResponse.BodyHandlers.ofString()))).thenReturn(response);
         when(response.statusCode()).thenReturn(200);
         when(response.body()).thenReturn(new Gson().toJson(result));

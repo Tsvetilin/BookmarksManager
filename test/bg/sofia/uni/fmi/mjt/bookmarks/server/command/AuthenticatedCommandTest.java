@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.mjt.bookmarks.server.command;
 import bg.sofia.uni.fmi.mjt.bookmarks.contracts.ResponseStatus;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.DIContainer;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.InvalidBookmarkException;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.bookmarks.BookmarksService;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.external.UrlShortener;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.logging.Logger;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
@@ -10,10 +11,10 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Group;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.User;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.DatabaseContext;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.persistence.repository.Repository;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.services.BookmarksService;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.Session;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.sessions.SessionStore;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.hasher.PasswordHasher;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.SecureString;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -62,16 +63,16 @@ public class AuthenticatedCommandTest {
         when(group.getName()).thenReturn(NAME);
         when(bookmark.getUrl()).thenReturn(URL);
         DIContainer.clear();
-        DIContainer.register(PasswordHasher.class, passwordHasher);
-        DIContainer.register(UrlShortener.class, urlShortener);
-        DIContainer.register(BookmarksService.class, bookmarksService);
+        DIContainer.registerUnchecked(PasswordHasher.class, passwordHasher);
+        DIContainer.registerUnchecked(UrlShortener.class, urlShortener);
+        DIContainer.registerUnchecked(BookmarksService.class, bookmarksService);
     }
 
     @Test
     void testFailUnauthenticated() {
         when(sessionStore.hasSession(session)).thenReturn(false);
 
-        var result = executor.execute("add-to group url", session);
+        var result = executor.execute(new SecureString("add-to group url"), session);
 
         verify(sessionStore, times(0)).getUser(session);
         assertEquals(ResponseStatus.ERROR, result.status(), "Not authenticated.");
@@ -83,7 +84,7 @@ public class AuthenticatedCommandTest {
         when(user.getBookmarks()).thenReturn(new ArrayList<>());
         when(bookmarksService.generateBookmark(any(), any(), anyBoolean(), any())).thenReturn(bookmark);
 
-        var result = executor.execute("add-to " + NAME + " url", session);
+        var result = executor.execute(new SecureString("add-to " + NAME + " url"), session);
 
         verify(bookmarkRepository, times(1)).add(any());
         verify(bookmarksService, times(1)).generateBookmark(any(), any(), anyBoolean(), any());
@@ -96,7 +97,7 @@ public class AuthenticatedCommandTest {
         when(user.getGroups()).thenReturn(List.of(group));
         when(bookmarksService.generateBookmark(any(), any(), anyBoolean(), any())).thenReturn(bookmark);
 
-        var result = executor.execute("add-to nonexisitinggroup url", session);
+        var result = executor.execute(new SecureString("add-to nonexisitinggroup url"), session);
 
         verify(bookmarkRepository, times(0)).add(any());
         verify(bookmarksService, times(0)).generateBookmark(any(), any(), anyBoolean(), any());
@@ -109,7 +110,7 @@ public class AuthenticatedCommandTest {
         when(user.getGroups()).thenReturn(List.of(group));
         when(user.getBookmarks()).thenReturn(List.of(bookmark));
 
-        var result = executor.execute("add-to " + NAME + " " + URL, session);
+        var result = executor.execute(new SecureString("add-to " + NAME + " " + URL), session);
 
         verify(bookmarkRepository, times(0)).add(any());
         verify(bookmarksService, times(0)).generateBookmark(any(), any(), anyBoolean(), any());
@@ -124,7 +125,7 @@ public class AuthenticatedCommandTest {
         when(bookmarksService.generateBookmark(any(), any(), anyBoolean(), any())).thenThrow(
             InvalidBookmarkException.class);
 
-        var result = executor.execute("add-to " + NAME + " url", session);
+        var result = executor.execute(new SecureString("add-to " + NAME + " url"), session);
 
         verify(bookmarkRepository, times(0)).add(any());
         verify(bookmarksService, times(1)).generateBookmark(any(), any(), anyBoolean(), any());
@@ -138,7 +139,7 @@ public class AuthenticatedCommandTest {
         when(user.getBookmarks()).thenReturn(List.of(bookmark));
         when(bookmarksService.validateUrl(any())).thenReturn(false);
 
-        var result = executor.execute("cleanup", session);
+        var result = executor.execute(new SecureString("cleanup"), session);
 
         verify(bookmarkRepository, times(1)).remove(any());
         verify(logger, times(1)).logInfo(any());
@@ -152,7 +153,7 @@ public class AuthenticatedCommandTest {
         when(user.getBookmarks()).thenReturn(List.of(bookmark));
         when(bookmarksService.validateUrl(any())).thenThrow(InvalidBookmarkException.class);
 
-        var result = executor.execute("cleanup", session);
+        var result = executor.execute(new SecureString("cleanup"), session);
 
         verify(bookmarkRepository, times(0)).remove(any());
         verify(logger, times(1)).logInfo(any());
@@ -165,7 +166,7 @@ public class AuthenticatedCommandTest {
         when(user.getBookmarks()).thenReturn(List.of(bookmark));
         when(bookmarksService.validateUrl(any())).thenReturn(false);
 
-        var result = executor.execute("import-from-chrome url", session);
+        var result = executor.execute(new SecureString("import-from-chrome url"), session);
 
         verify(bookmarkRepository, times(1)).add(any());
         verify(logger, times(0)).logInfo(any());
@@ -178,7 +179,7 @@ public class AuthenticatedCommandTest {
         when(user.getGroups()).thenReturn(List.of(group));
         when(user.getBookmarks()).thenReturn(List.of(bookmark));
 
-        var result = executor.execute("remove-from " + NAME + " " + URL, session);
+        var result = executor.execute(new SecureString("remove-from " + NAME + " " + URL), session);
 
         verify(bookmarkRepository, times(1)).remove(any());
         verify(logger, times(1)).logInfo(any());
@@ -190,7 +191,7 @@ public class AuthenticatedCommandTest {
         when(user.getGroups()).thenReturn(new ArrayList<>());
         when(user.getBookmarks()).thenReturn(List.of(bookmark));
 
-        var result = executor.execute("remove-from " + NAME + " " + URL, session);
+        var result = executor.execute(new SecureString("remove-from " + NAME + " " + URL), session);
 
         verify(bookmarkRepository, times(0)).remove(any());
         verify(logger, times(1)).logInfo(any());

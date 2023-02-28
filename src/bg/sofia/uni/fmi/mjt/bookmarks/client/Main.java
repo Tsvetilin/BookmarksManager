@@ -1,5 +1,8 @@
 package bg.sofia.uni.fmi.mjt.bookmarks.client;
 
+import bg.sofia.uni.fmi.mjt.bookmarks.client.chrome.ChromeService;
+import com.google.gson.Gson;
+
 import java.util.Scanner;
 
 public class Main {
@@ -37,11 +40,11 @@ public class Main {
             if (cmd.startsWith(CONNECT_CMD)) {
                 var split = cmd.split(" ");
                 if (split.length == SINGLE_ARG_LENGTH) {
-                    var client = new Client(SERVER_HOST, SERVER_PORT);
+                    var client = new Client(SERVER_HOST, SERVER_PORT, new ChromeService(new Gson()));
                     client.start();
                     client.join();
                 } else if (split.length == THREE_ARG_LENGTH) {
-                    var client = new Client(split[1], Integer.parseInt(split[2]));
+                    var client = new Client(split[1], Integer.parseInt(split[2]), new ChromeService(new Gson()));
                     client.start();
                     client.join();
                 } else {

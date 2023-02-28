@@ -7,20 +7,25 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.command.AuthenticatedCommand;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandType;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.InvalidBookmarkException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.services.BookmarksService;
-import bg.sofia.uni.fmi.mjt.bookmarks.server.services.IdGenerator;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.bookmarks.BookmarksService;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.identity.IdGeneratorService;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.utils.Nullable;
 
 public class AddToCommand extends AuthenticatedCommand {
-// TODO: Resource bundles - const messages
+    // TODO: Resource bundles - const messages
     private final String group;
     private final String url;
     private final boolean isShortened;
+    private final BookmarksService bookmarksService;
+    private final IdGeneratorService idGenerator;
 
     public AddToCommand(String url, String group, boolean isShortened) {
         this.group = group;
         this.url = url;
         this.isShortened = isShortened;
+
+        this.bookmarksService = DIContainer.request(BookmarksService.class);
+        this.idGenerator = DIContainer.request(IdGeneratorService.class);
 
         Nullable.throwIfAnyNull(group, url);
     }
@@ -46,10 +51,9 @@ public class AddToCommand extends AuthenticatedCommand {
 
         Bookmark bookmark;
         try {
-            bookmark =
-                DIContainer.request(BookmarksService.class).generateBookmark(url, actualGroup, isShortened, user);
+            bookmark = bookmarksService.generateBookmark(url, actualGroup, isShortened, user);
         } catch (InvalidBookmarkException e) {
-            String traceId = IdGenerator.generateId();
+            String traceId = idGenerator.generateId();
             logger.logError("Server error on saving bookmark. Trace id: " + traceId);
             logger.logException(e, traceId);
             return new Response("Invalid url provided. Trace id: " + traceId, ResponseStatus.ERROR);

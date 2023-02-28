@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class DefaultFileProvider implements FileProvider {
-
+    //TODO: max file size check
     private static final String DEFAULT_LOG_FILE_PATH = "./logs/common/";
     private static final String DEFAULT_ERROR_FILE_PATH = "./logs/errors/";
     private final String logFilePath;
@@ -40,15 +40,14 @@ public class DefaultFileProvider implements FileProvider {
     public void writeError(Exception e, String traceId) throws LoggerOperationException {
 
         StringWriter writer = new StringWriter();
-
         writer.write("[" + LocalDateTime.now() + "] [" + traceId + "] ");
-
         PrintWriter printer = new PrintWriter(writer);
         e.printStackTrace(printer);
-
         writer.write(System.lineSeparator());
 
-        writeToFile(errorFilePath, writer.toString());
+        String log = writer.toString();
+        writeToFile(errorFilePath, log);
+        writeToFile(logFilePath, log);
     }
 
     private void writeToFile(String root, String str) throws LoggerOperationException {

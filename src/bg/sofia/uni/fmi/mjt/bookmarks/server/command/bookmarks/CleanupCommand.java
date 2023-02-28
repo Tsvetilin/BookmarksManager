@@ -8,22 +8,25 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.command.CommandType;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.exceptions.InvalidBookmarkException;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.models.Bookmark;
 import bg.sofia.uni.fmi.mjt.bookmarks.server.services.bookmarks.BookmarksService;
+import bg.sofia.uni.fmi.mjt.bookmarks.server.services.identity.IdGeneratorService;
 
 public class CleanupCommand extends AuthenticatedCommand {
 
-    private final BookmarksService service;
+    private final BookmarksService bookmarksService;
+    private final IdGeneratorService idGenerator;
 
     public CleanupCommand() {
-        service = DIContainer.request(BookmarksService.class);
+        idGenerator = DIContainer.request(IdGeneratorService.class);
+        bookmarksService = DIContainer.request(BookmarksService.class);
     }
 
     private boolean isValid(Bookmark bookmark) {
         try {
-            return !service.validateUrl(bookmark.getUrl());
+            return !bookmarksService.validateUrl(bookmark.getUrl());
         } catch (InvalidBookmarkException e) {
-            String traceId = IdGenerator.generateId();
+            String traceId = idGenerator.generateId();
             logger.logError("Server error on cleaning up bookmarks. Trace id: " + traceId);
-            logger.logException(e, IdGenerator.generateId());
+            logger.logException(e, traceId);
             return false;
         }
     }

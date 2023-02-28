@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.channels.ClosedByInterruptException;
 
 public class ClientMessageReader implements Runnable {
-// TODO: handle better leaving
+
     private final BufferedReader reader;
     private boolean isRunning;
 

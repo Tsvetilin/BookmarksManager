@@ -9,6 +9,7 @@ import bg.sofia.uni.fmi.mjt.bookmarks.server.services.serialize.models.UserSeria
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.Reader;
 import java.lang.reflect.Type;
 
 public class DefaultSerializer implements Serializer {
@@ -37,5 +38,10 @@ public class DefaultSerializer implements Serializer {
     @Override
     public <T> T deserialize(String object, Type type) {
         return gson.fromJson(object, type);
+    }
+
+    @Override
+    public <T> T deserialize(Reader reader, Type type) {
+        return gson.fromJson(reader, type);
     }
 }

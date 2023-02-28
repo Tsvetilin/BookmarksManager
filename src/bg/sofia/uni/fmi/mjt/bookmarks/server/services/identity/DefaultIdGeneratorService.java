@@ -8,10 +8,10 @@ import java.util.Set;
 public class DefaultIdGeneratorService implements IdGeneratorService {
 
     private final GeneratorStrategy strategy;
-    private final Set<String> IDS;
+    private final Set<String> ids;
 
     public DefaultIdGeneratorService(GeneratorStrategy strategy) {
-        IDS = new HashSet<>();
+        ids = new HashSet<>();
         this.strategy = strategy;
     }
 
@@ -20,19 +20,19 @@ public class DefaultIdGeneratorService implements IdGeneratorService {
         String id;
         do {
             id = strategy.generateNext();
-        } while (IDS.contains(id));
+        } while (ids.contains(id));
 
         return id;
     }
 
     @Override
     public void addUsedId(String id) {
-        IDS.add(id);
+        ids.add(id);
     }
 
     @Override
     public void clear() {
-        IDS.clear();
+        ids.clear();
     }
 
 }

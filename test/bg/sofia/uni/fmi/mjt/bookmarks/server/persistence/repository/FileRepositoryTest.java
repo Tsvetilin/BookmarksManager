@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -40,13 +41,13 @@ public class FileRepositoryTest {
 
     @Test
     void testLoadSuccess() {
-        when(serializer.deserialize(any(), any())).thenReturn(new HashMap<String, User>());
+        when(serializer.deserialize(anyString(), any(Type.class))).thenReturn(new HashMap<String, User>());
         assertDoesNotThrow(() -> repo.load());
     }
 
     @Test
     void testLoadFail() {
-        when(serializer.deserialize(any(), any())).thenThrow(RuntimeException.class);
+        when(serializer.deserialize(anyString(), any(Type.class))).thenThrow(RuntimeException.class);
         assertThrows(RuntimeException.class, () -> repo.load());
     }
 

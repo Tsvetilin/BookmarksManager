@@ -5,7 +5,16 @@ import java.util.List;
 
 public class SecureString {
 
-    private char[] data = new char[8192];
+    public SecureString() {
+
+    }
+
+    public SecureString(String string) {
+        data = string.toCharArray().clone();
+    }
+
+    private static final int MAX_CAPACITY = 8192;
+    private char[] data = new char[MAX_CAPACITY];
 
     public void clear() {
     }
@@ -33,9 +42,6 @@ public class SecureString {
     public char[] toCharArray() {
         return data;
     }
-
-
-    // TODO: implicit conversion to normal String
 
     public List<SecureString> split(char... c) {
         return null;

@@ -13,12 +13,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DefaultStopwordsService implements StopwordsService {
-    private final String DEFAULT_FILE_PATH = "resources/stopwords.txt";
-    private final Set<String> STOPWORDS;
+    private static final String DEFAULT_FILE_PATH = "resources/stopwords.txt";
+    private final Set<String> stopwords;
     private boolean isLoaded;
 
     public DefaultStopwordsService() {
-        STOPWORDS = new HashSet<>();
+        stopwords = new HashSet<>();
         isLoaded = false;
     }
 
@@ -31,18 +31,18 @@ public class DefaultStopwordsService implements StopwordsService {
 
     @Override
     public Collection<String> list() {
-        return STOPWORDS;
+        return stopwords;
     }
 
     @Override
     public boolean isStopword(String word) {
-        return STOPWORDS.contains(word.trim().toLowerCase());
+        return stopwords.contains(word.trim().toLowerCase());
     }
 
 
     @Override
     public void add(String word) {
-        STOPWORDS.add(word);
+        stopwords.add(word);
         isLoaded = true;
     }
 
@@ -66,11 +66,11 @@ public class DefaultStopwordsService implements StopwordsService {
     public void load(Reader reader) throws StopWordsException {
         Nullable.throwIfNull(reader);
 
-        STOPWORDS.clear();
+        stopwords.clear();
         isLoaded = false;
 
         try (var bufferedReader = new BufferedReader(reader)) {
-            STOPWORDS.addAll(bufferedReader.lines().collect(Collectors.toSet()));
+            stopwords.addAll(bufferedReader.lines().collect(Collectors.toSet()));
             isLoaded = true;
         } catch (IOException e) {
             throw new StopWordsException(e);
